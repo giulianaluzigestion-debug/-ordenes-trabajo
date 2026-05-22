@@ -544,13 +544,7 @@ function setTodayUI(){
   const days=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
   const today=new Date();
   document.getElementById('todayBadge').innerHTML=`<strong>${days[today.getDay()]}</strong> ${today.toLocaleDateString('es-AR',{day:'numeric',month:'long'})}`;
-  const tz=getTodayZone();
-  const banner=document.getElementById('todayBanner');
-  if(tz && currentRole==='admin'){
-    const z=ZONAS[tz];
-    banner.style.cssText=`background:${z.bg};border-color:${z.color};color:${z.color};display:flex;`;
-    banner.innerHTML=`<span style="font-size:18px">📍</span><span>Hoy corresponde la <strong>${z.label}</strong> — ${z.places}</span>`;
-  } else { banner.style.display='none'; }
+  document.getElementById('todayBanner').style.display='none';
 }
 
 // ── RENDER ──
