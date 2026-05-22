@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Órdenes de Trabajo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --z1:#e8681a;--z1l:#fff3ec;--z2:#1a8fd4;--z2l:#e8f4fc;--z3:#2aaa6e;--z3l:#e6f7f0;
+  --bg:#f7f5f0;--paper:#fffef9;--ink:#1a1208;--ink2:#5a5040;--border:#e0d8cc;
+  --shadow:0 2px 12px rgba(0,0,0,0.07),0 1px 3px rgba(0,0,0,0.05);
+  --shadow-lg:0 8px 32px rgba(0,0,0,0.10),0 2px 8px rgba(0,0,0,0.06);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+
+/* ── LOGIN ── */
+#loginScreen{display:none;position:fixed;inset:0;background:var(--bg);z-index:1000;align-items:center;justify-content:center;padding:20px;}
+#loginScreen.visible{display:flex;}
+.login-box{background:var(--paper);border-radius:24px;padding:40px 36px;width:100%;max-width:420px;box-shadow:var(--shadow-lg);border:1.5px solid var(--border);}
+.login-logo{font-family:'DM Serif Display',serif;font-size:28px;color:var(--ink);margin-bottom:4px;}
+.login-logo em{font-style:normal;color:var(--z1);}
+.login-sub{font-size:14px;color:var(--ink2);margin-bottom:32px;}
+.login-label{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ink2);display:block;margin-bottom:6px;}
+.login-input{font-family:'DM Sans',sans-serif;font-size:16px;padding:12px 16px;border:1.5px solid var(--border);border-radius:12px;background:var(--bg);color:var(--ink);outline:none;width:100%;transition:border-color .2s;margin-bottom:12px;}
+.login-input:focus{border-color:var(--z1);background:var(--paper);}
+.role-btns{display:flex;gap:10px;margin-bottom:24px;}
+.role-btn{flex:1;padding:12px;border-radius:12px;border:2px solid var(--border);background:none;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;color:var(--ink2);transition:all .15s;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.role-btn .role-icon{font-size:24px;}
+.role-btn.active{border-color:var(--z1);background:#fff8f3;color:var(--z1);}
+.btn-entrar{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:14px;width:100%;cursor:pointer;transition:background .15s;}
+.btn-entrar:hover{background:#3a2a10;}
+.login-error{color:#c0392b;font-size:13px;margin-top:10px;min-height:18px;}
+.pin-row{display:flex;gap:8px;justify-content:center;margin-bottom:12px;}
+.pin-digit{width:52px;height:60px;font-size:24px;font-weight:700;text-align:center;border:2px solid var(--border);border-radius:12px;background:var(--bg);color:var(--ink);outline:none;font-family:'DM Sans',sans-serif;}
+.pin-digit:focus{border-color:var(--z1);background:var(--paper);}
+
+/* ── SETUP ── */
+#setupScreen{display:none;position:fixed;inset:0;background:var(--bg);z-index:999;overflow-y:auto;padding:40px 20px;}
+#setupScreen.visible{display:block;}
+.setup-wrap{max-width:620px;margin:0 auto;}
+.setup-logo{font-family:'DM Serif Display',serif;font-size:28px;color:var(--ink);margin-bottom:8px;}
+.setup-logo em{font-style:normal;color:#e8681a;}
+.setup-sub{font-size:15px;color:var(--ink2);margin-bottom:32px;line-height:1.6;}
+.step-block{background:var(--paper);border-radius:16px;border:1.5px solid var(--border);padding:24px 28px;margin-bottom:16px;}
+.step-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-size:13px;font-weight:700;margin-bottom:12px;}
+.step-title{font-size:16px;font-weight:600;margin-bottom:8px;color:var(--ink);}
+.step-body{font-size:14px;color:var(--ink2);line-height:1.7;}
+.step-body strong{color:var(--ink);}
+.step-body code{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:2px 7px;font-family:monospace;font-size:13px;color:#c0392b;}
+.step-img{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-top:12px;font-size:13px;color:var(--ink2);font-family:monospace;line-height:1.8;}
+.config-inputs{display:flex;flex-direction:column;gap:10px;margin-top:16px;}
+.config-inputs label{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ink2);}
+.config-inputs input{font-family:'DM Sans',sans-serif;font-size:13px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--ink);outline:none;transition:border-color .2s;}
+.config-inputs input:focus{border-color:#e8681a;background:var(--paper);}
+.btn-conectar{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;background:var(--ink);color:#fff;border:none;border-radius:12px;padding:14px 32px;cursor:pointer;margin-top:20px;width:100%;transition:background .15s;}
+.btn-conectar:hover{background:#3a2a10;}
+.setup-error{color:#c0392b;font-size:13px;margin-top:10px;display:none;}
+
+/* ── LOADING ── */
+#loadingScreen{display:none;position:fixed;inset:0;background:var(--bg);z-index:998;align-items:center;justify-content:center;flex-direction:column;gap:16px;}
+#loadingScreen.visible{display:flex;}
+.spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--ink);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:14px;color:var(--ink2);}
+
+/* ── HEADER ── */
+header{background:var(--paper);border-bottom:1.5px solid var(--border);padding:0 32px;height:68px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 1px 8px rgba(0,0,0,0.06);}
+.logo{font-family:'DM Serif Display',serif;font-size:24px;color:var(--ink);letter-spacing:-.5px;}
+.logo em{font-style:normal;color:var(--z1);}
+.header-right{display:flex;align-items:center;gap:10px;}
+.today-badge{font-size:13px;font-weight:500;color:var(--ink2);background:var(--bg);padding:6px 14px;border-radius:20px;border:1px solid var(--border);}
+.today-badge strong{color:var(--ink);}
+.sync-dot{width:8px;height:8px;border-radius:50%;background:#ccc;transition:background .3s;flex-shrink:0;}
+.sync-dot.ok{background:#2aaa6e;}.sync-dot.error{background:#e74c3c;}
+.user-chip{font-size:12px;font-weight:600;background:var(--bg);border:1.5px solid var(--border);border-radius:20px;padding:5px 12px;color:var(--ink2);display:flex;align-items:center;gap:5px;}
+.user-chip.admin{background:#fff8f3;border-color:var(--z1);color:var(--z1);}
+.btn-salir{font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;border:1.5px solid var(--border);background:none;color:var(--ink2);cursor:pointer;transition:all .15s;}
+.btn-salir:hover{border-color:#c00;color:#c00;}
+.btn-nueva{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;background:var(--ink);color:#fff;border:none;border-radius:10px;padding:10px 20px;cursor:pointer;transition:background .15s,transform .1s;display:flex;align-items:center;gap:7px;}
+.btn-nueva:hover{background:#3a2a10;}.btn-nueva:active{transform:scale(.97);}
+.btn-cfg{width:36px;height:36px;border-radius:8px;border:1.5px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink2);transition:all .15s;}
+.btn-cfg:hover{background:var(--bg);border-color:var(--ink2);}
+
+/* ── ZONE TABS (admin only) ── */
+.zone-nav{display:flex;gap:0;padding:20px 32px 0;border-bottom:2px solid var(--border);background:var(--paper);overflow-x:auto;}
+.zone-tab{font-size:13px;font-weight:600;padding:10px 20px 12px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .15s,border-color .15s;color:var(--ink2);white-space:nowrap;display:flex;align-items:center;gap:7px;}
+.zone-tab .dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.5;}
+.zone-tab.z1{color:var(--z1);}.zone-tab.z2{color:var(--z2);}.zone-tab.z3{color:var(--z3);}.zone-tab.all{color:var(--ink2);}
+.zone-tab.active{border-bottom-color:currentColor;opacity:1;}
+.zone-tab .badge{background:currentColor;color:var(--paper);font-size:11px;font-weight:700;border-radius:10px;padding:1px 7px;min-width:22px;text-align:center;}
+
+/* ── VENDEDOR HEADER BAR ── */
+.vendedor-bar{background:var(--paper);border-bottom:1.5px solid var(--border);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;}
+.vendedor-bar-title{font-size:15px;font-weight:600;color:var(--ink);}
+.vendedor-bar-sub{font-size:13px;color:var(--ink2);}
+
+/* ── MAIN ── */
+.main{max-width:920px;margin:0 auto;padding:28px 24px 80px;}
+.today-banner{border-radius:14px;padding:14px 20px;margin-bottom:24px;font-size:14px;font-weight:500;display:none;align-items:center;gap:10px;border:1.5px solid transparent;}
+.filters{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
+.filter-btn{font-size:12px;font-weight:600;padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--paper);color:var(--ink2);cursor:pointer;transition:all .15s;}
+.filter-btn:hover,.filter-btn.active{border-color:var(--ink);background:var(--ink);color:#fff;}
+.filter-sep{flex:1;}
+.show-done-btn{font-size:12px;font-weight:500;color:var(--ink2);background:none;border:1.5px solid var(--border);border-radius:20px;padding:6px 14px;cursor:pointer;transition:all .15s;}
+.show-done-btn:hover{border-color:#888;color:#888;}
+.show-done-btn.active{background:#f5f5f3;border-color:#888;color:#888;}
+
+/* ── CARDS ── */
+.orden-list{display:flex;flex-direction:column;gap:10px;}
+.orden-card{background:var(--paper);border-radius:14px;border:1.5px solid var(--border);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .2s,transform .15s;animation:slideIn .25s ease both;}
+@keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.orden-card:hover{box-shadow:var(--shadow-lg);transform:translateY(-1px);}
+.orden-card.done{background:#d4f5e2;border-color:#7ed9a8;box-shadow:none;}
+.orden-card.done:hover{transform:none;box-shadow:none;}
+.done .orden-stripe{background:#2aaa6e !important;}
+.done .orden-cliente{color:#1a6640;text-decoration:line-through;}
+.done .orden-dir,.done .orden-meta,.done .orden-notas{color:#2e7a52;}
+.done .orden-notas{background:#b8ecd0;border-left-color:#7ed9a8;}
+.orden-stripe{height:4px;width:100%;}
+.z1 .orden-stripe{background:var(--z1);}.z2 .orden-stripe{background:var(--z2);}.z3 .orden-stripe{background:var(--z3);}
+.orden-body{padding:14px 18px;display:flex;align-items:flex-start;gap:14px;}
+.orden-actions-left{flex-shrink:0;display:flex;flex-direction:column;gap:6px;margin-top:2px;}
+.orden-actions-right{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:6px;margin-top:2px;}
+.btn-terminar{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;padding:8px 14px;border-radius:10px;border:2px solid #2aaa6e;background:#e6f7f0;color:#1a6640;cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s;white-space:nowrap;}
+.btn-terminar:hover{background:#2aaa6e;color:#fff;}
+.btn-reabrir{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:6px 12px;border-radius:10px;border:2px solid #7ed9a8;background:#b8ecd0;color:#1a6640;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.btn-reabrir:hover{background:#7ed9a8;}
+.btn-print{font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:6px 12px;border-radius:10px;border:2px solid var(--border);background:var(--bg);color:var(--ink2);cursor:pointer;transition:all .15s;white-space:nowrap;display:flex;align-items:center;gap:5px;}
+.btn-print:hover{border-color:var(--ink);color:var(--ink);}
+.orden-info{flex:1;min-width:0;}
+.orden-top{display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap;}
+.orden-cliente{font-size:16px;font-weight:600;color:var(--ink);}
+.tipo-badge{font-size:11px;font-weight:600;padding:2px 9px;border-radius:10px;white-space:nowrap;}
+.tipo-colocacion{background:#fff0e0;color:#9a4a00;}.tipo-arreglo{background:#e0f0ff;color:#005a9a;}.tipo-medicion{background:#e0f7ee;color:#006633;}.tipo-otro{background:#f0eeff;color:#4a0090;}
+.urgente-badge{font-size:10px;font-weight:700;background:#ffe0e0;color:#a00000;border-radius:10px;padding:2px 8px;letter-spacing:.5px;text-transform:uppercase;}
+.orden-dir{font-size:13px;color:var(--ink2);margin-bottom:3px;display:flex;align-items:center;gap:5px;}
+.orden-meta{display:flex;gap:14px;font-size:12px;color:var(--ink2);flex-wrap:wrap;}
+.orden-meta span{display:flex;align-items:center;gap:4px;}
+.orden-notas{margin-top:8px;font-size:13px;color:var(--ink2);background:var(--bg);border-radius:8px;padding:8px 12px;line-height:1.5;border-left:3px solid var(--border);}
+.btn-icon{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink2);transition:all .15s;}
+.btn-icon:hover{background:var(--bg);border-color:var(--ink2);}
+.btn-del:hover{border-color:#c00;color:#c00;background:#fff0f0;}
+.empty{text-align:center;padding:60px 20px;color:var(--ink2);}
+.empty-icon{font-size:48px;margin-bottom:12px;opacity:.3;}
+.empty p{font-size:15px;}.empty small{font-size:13px;opacity:.7;}
+.done-header{font-size:12px;font-weight:600;color:#888;letter-spacing:1px;text-transform:uppercase;margin:24px 0 10px;display:flex;align-items:center;gap:8px;}
+.done-header::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(20,12,0,0.45);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--paper);border-radius:20px;padding:32px;width:100%;max-width:520px;box-shadow:0 24px 64px rgba(0,0,0,0.18);animation:modalIn .22s cubic-bezier(.34,1.56,.64,1) both;max-height:90vh;overflow-y:auto;}
+@keyframes modalIn{from{opacity:0;transform:scale(.92) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-title{font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:24px;color:var(--ink);}
+.form-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;}
+.form-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:180px;}
+.form-group.full{min-width:100%;}
+label{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ink2);}
+input[type=text],select,textarea{font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;width:100%;}
+input:focus,select:focus,textarea:focus{border-color:var(--z1);box-shadow:0 0 0 3px rgba(232,104,26,0.12);background:var(--paper);}
+textarea{resize:vertical;min-height:80px;font-size:16px !important;}
+.urgente-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.urgente-row input[type=checkbox]{width:18px;height:18px;accent-color:#c00;cursor:pointer;}
+.urgente-row label{text-transform:none;font-size:14px;letter-spacing:0;font-weight:500;color:var(--ink);cursor:pointer;}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:24px;}
+.btn-cancel{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:10px 20px;border-radius:10px;border:1.5px solid var(--border);background:none;color:var(--ink2);cursor:pointer;}
+.btn-cancel:hover{background:var(--bg);}
+.btn-guardar{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:10px 24px;border-radius:10px;border:none;background:var(--ink);color:#fff;cursor:pointer;transition:background .15s;}
+.btn-guardar:hover{background:#3a2a10;}
+
+/* ── PRINT ── */
+@media print {
+  body * { visibility: hidden; }
+  #printArea, #printArea * { visibility: visible; }
+  #printArea { position: fixed; inset: 0; padding: 32px; background: white; }
+  .print-header { margin-bottom: 24px; border-bottom: 2px solid #333; padding-bottom: 16px; }
+  .print-title { font-family: 'DM Serif Display', serif; font-size: 26px; }
+  .print-fecha { font-size: 13px; color: #666; margin-top: 4px; }
+  .print-body { font-size: 15px; line-height: 2; }
+  .print-row { display: flex; gap: 12px; border-bottom: 1px solid #eee; padding: 8px 0; }
+  .print-key { font-weight: 600; min-width: 160px; color: #333; }
+  .print-val { color: #111; }
+  .print-notas-box { margin-top: 20px; border: 1.5px solid #333; border-radius: 8px; padding: 16px; }
+  .print-notas-title { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .print-notas-text { font-size: 15px; line-height: 1.7; }
+  .print-firma { margin-top: 48px; display: flex; gap: 48px; }
+  .print-firma-box { flex: 1; border-top: 1.5px solid #333; padding-top: 8px; font-size: 13px; color: #666; text-align: center; }
+}
+
+@media(max-width:600px){
+  header{padding:0 16px;gap:8px;}
+  .zone-nav{padding:16px 16px 0;}
+  .main{padding:16px 12px 60px;}
+  .modal{padding:20px;}
+  .vendedor-bar{padding:12px 16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="visible">
+  <div class="login-box">
+    <div class="login-logo">Órdenes <em>·</em> Trabajo</div>
+    <div class="login-sub">¿Quién sos?</div>
+    <div class="role-btns">
+      <button class="role-btn active" id="roleVendedor" onclick="selectRole('vendedor')">
+        <span class="role-icon">🧑‍💼</span> Vendedor
+      </button>
+      <button class="role-btn" id="roleAdmin" onclick="selectRole('admin')">
+        <span class="role-icon">🔧</span> Juan (Admin)
+      </button>
+    </div>
+    <!-- Vendedor fields -->
+    <div id="vendedorFields">
+      <label class="login-label">Tu nombre</label>
+      <input type="text" class="login-input" id="loginNombre" placeholder="Escribí tu nombre completo" />
+    </div>
+    <!-- Admin fields -->
+    <div id="adminFields" style="display:none;">
+      <label class="login-label">PIN de acceso</label>
+      <div class="pin-row">
+        <input class="pin-digit" type="password" maxlength="1" id="p0" inputmode="numeric" />
+        <input class="pin-digit" type="password" maxlength="1" id="p1" inputmode="numeric" />
+        <input class="pin-digit" type="password" maxlength="1" id="p2" inputmode="numeric" />
+        <input class="pin-digit" type="password" maxlength="1" id="p3" inputmode="numeric" />
+        <input class="pin-digit" type="password" maxlength="1" id="p4" inputmode="numeric" />
+        <input class="pin-digit" type="password" maxlength="1" id="p5" inputmode="numeric" />
+      </div>
+    </div>
+    <div class="login-error" id="loginError"></div>
+    <button class="btn-entrar" onclick="doLogin()">Entrar</button>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div id="setupScreen">
+  <div class="setup-wrap">
+    <div class="setup-logo">Órdenes <em>·</em> Juan</div>
+    <p class="setup-sub">Para que los datos se guarden en la nube y puedan verlos desde cualquier computadora, necesitás conectar Firebase. Solo hay que hacer esto una vez.</p>
+    <div class="step-block">
+      <div class="step-num">1</div>
+      <div class="step-title">Crear el proyecto en Firebase</div>
+      <div class="step-body">Entrá a <strong>console.firebase.google.com</strong> con tu cuenta de Google. Hacé clic en <strong>"Agregar proyecto"</strong>, poné un nombre (ej: <code>ordenes-juan</code>), desactivá Google Analytics y creá el proyecto.</div>
+    </div>
+    <div class="step-block">
+      <div class="step-num">2</div>
+      <div class="step-title">Crear la base de datos Firestore</div>
+      <div class="step-body">En el menú izquierdo buscá <strong>"Firestore Database"</strong> → <strong>"Crear base de datos"</strong>. Elegí <strong>"Comenzar en modo de prueba"</strong> y región <code>us-east1</code>.</div>
+    </div>
+    <div class="step-block">
+      <div class="step-num">3</div>
+      <div class="step-title">Registrar la app web</div>
+      <div class="step-body">Engranaje ⚙️ → <strong>"Configuración del proyecto"</strong> → bajá a <strong>"Tus apps"</strong> → ícono <code>&lt;/&gt;</code>. Poné un nombre y registrá. Te va a mostrar los datos de configuración.</div>
+    </div>
+    <div class="step-block">
+      <div class="step-num">4</div>
+      <div class="step-title">Pegá los datos de configuración acá</div>
+      <div class="step-body">
+        <div class="step-img">const firebaseConfig = {<br>&nbsp;&nbsp;apiKey: "<strong>← copiá</strong>",<br>&nbsp;&nbsp;authDomain: "<strong>← copiá</strong>",<br>&nbsp;&nbsp;projectId: "<strong>← copiá</strong>",<br>&nbsp;&nbsp;appId: "<strong>← copiá</strong>"<br>};</div>
+      </div>
+      <div class="config-inputs">
+        <div><label>apiKey</label><input type="text" id="cfg-apiKey" placeholder="AIzaSy..." /></div>
+        <div><label>authDomain</label><input type="text" id="cfg-authDomain" placeholder="tu-proyecto.firebaseapp.com" /></div>
+        <div><label>projectId</label><input type="text" id="cfg-projectId" placeholder="tu-proyecto" /></div>
+        <div><label>appId</label><input type="text" id="cfg-appId" placeholder="1:123456:web:abc..." /></div>
+      </div>
+      <div class="setup-error" id="setupError">Verificá los datos e intentá de nuevo.</div>
+      <button class="btn-conectar" onclick="conectarFirebase()">Conectar y guardar configuración</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="loadingScreen">
+  <div class="spinner"></div>
+  <div class="loading-text" id="loadingText">Conectando...</div>
+</div>
+
+<!-- APP -->
+<div id="appScreen" style="display:none;">
+
+  <header>
+    <div class="logo">Órdenes <em>·</em> Trabajo</div>
+    <div class="header-right">
+      <div class="sync-dot" id="syncDot"></div>
+      <div class="today-badge" id="todayBadge"></div>
+      <div class="user-chip" id="userChip"></div>
+      <button class="btn-cfg" id="btnCfg" onclick="abrirConfig()" title="Configuración" style="display:none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+      <button class="btn-salir" onclick="cerrarSesion()">Salir</button>
+      <button class="btn-nueva" onclick="openModal()">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Nueva orden
+      </button>
+    </div>
+  </header>
+
+  <!-- Admin: zone tabs -->
+  <div class="zone-nav" id="zoneTabs">
+    <div class="zone-tab all active" onclick="setZone('all')"><div class="dot"></div>Todas<span class="badge" id="badge-all">0</span></div>
+    <div class="zone-tab z1" onclick="setZone('1')"><div class="dot"></div>Zona 1 · Oeste<span class="badge" id="badge-1">0</span></div>
+    <div class="zone-tab z2" onclick="setZone('2')"><div class="dot"></div>Zona 2 · Norte<span class="badge" id="badge-2">0</span></div>
+    <div class="zone-tab z3" onclick="setZone('3')"><div class="dot"></div>Zona 3 · Centro/Sur<span class="badge" id="badge-3">0</span></div>
+  </div>
+
+  <!-- Vendedor: info bar -->
+  <div class="vendedor-bar" id="vendedorBar" style="display:none;">
+    <div>
+      <div class="vendedor-bar-title" id="vendedorBarTitle"></div>
+      <div class="vendedor-bar-sub">Solo ves tus propias órdenes cargadas</div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="today-banner" id="todayBanner"></div>
+    <div class="filters" id="filtersBar">
+      <button class="filter-btn active" onclick="setTipo('all',this)">Todos</button>
+      <button class="filter-btn" onclick="setTipo('colocacion',this)">Colocación</button>
+      <button class="filter-btn" onclick="setTipo('arreglo',this)">Arreglo</button>
+      <button class="filter-btn" onclick="setTipo('medicion',this)">Medición</button>
+      <button class="filter-btn" onclick="setTipo('otro',this)">Otro</button>
+      <div class="filter-sep"></div>
+      <button class="show-done-btn" id="showDoneBtn" onclick="toggleDone()">Mostrar terminados</button>
+    </div>
+    <div class="orden-list" id="ordenList"></div>
+  </div>
+
+</div><!-- /appScreen -->
+
+<!-- PRINT AREA (hidden until print) -->
+<div id="printArea" style="display:none;"></div>
+
+<!-- MODAL ORDEN -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle">Nueva orden de trabajo</div>
+    <div class="form-row"><div class="form-group full"><label>Cliente</label><input type="text" id="f-cliente" placeholder="Nombre del cliente"/></div></div>
+    <div class="form-row"><div class="form-group full"><label>Dirección</label><input type="text" id="f-dir" placeholder="Calle, número, localidad"/></div></div>
+    <div class="form-row">
+      <div class="form-group"><label>Tipo de trabajo</label>
+        <select id="f-tipo"><option value="colocacion">Colocación</option><option value="arreglo">Arreglo</option><option value="medicion">Medición en obra</option><option value="otro">Otro</option></select>
+      </div>
+      <div class="form-group"><label>Zona</label>
+        <select id="f-zona"><option value="1">Zona 1 · Oeste (Lu/Mi/Vi)</option><option value="2">Zona 2 · Norte (Ma/Sá)</option><option value="3">Zona 3 · Centro/Sur (Ju/Ma)</option></select>
+      </div>
+    </div>
+    <div class="form-row" id="vendedorRow"><div class="form-group"><label>Vendedor</label><input type="text" id="f-vendedor" placeholder="Nombre del vendedor"/></div></div>
+    <div class="urgente-row"><input type="checkbox" id="f-urgente"/><label for="f-urgente">⚠️ Marcar como urgente</label></div>
+    <div class="form-row"><div class="form-group full"><label>Notas / Observaciones</label><textarea id="f-notas" placeholder="Medidas, materiales, indicaciones especiales..."></textarea></div></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+      <button class="btn-guardar" id="btnGuardar" onclick="guardarOrden()">Guardar orden</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-overlay" id="confirmOverlay">
+  <div class="modal" style="max-width:420px;text-align:center;">
+    <div style="font-size:48px;margin-bottom:12px;">✅</div>
+    <div class="modal-title" style="font-size:20px;margin-bottom:10px;">¿Trabajo finalizado?</div>
+    <p style="font-size:15px;color:var(--ink2);margin-bottom:6px;">¿El trabajo de <strong id="confirmNombre"></strong> se terminó y querés archivarlo?</p>
+    <p style="font-size:13px;color:var(--ink2);margin-bottom:24px;">Va a quedar en <em>Terminados</em> y podés reabrirlo si hace falta.</p>
+    <div class="modal-btns" style="justify-content:center;">
+      <button class="btn-cancel" onclick="cerrarConfirm()">No, volver</button>
+      <button class="btn-guardar" style="background:#2aaa6e;" onclick="archivarOrden()">Sí, archivar trabajo</button>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getFirestore, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+
+const CFG_KEY = 'firebase-cfg-juan-v1';
+const ADMIN_PIN = '025802';
+
+let db = null;
+let ordenes = [];
+let activeZone = 'all';
+let activeTipo = 'all';
+let showDone = false;
+let editId = null;
+let currentRole = null; // 'admin' | 'vendedor'
+let currentNombre = null;
+
+const ZONAS = {
+  '1':{ label:'Zona 1 · Oeste', dias:'Lunes, Miércoles y Viernes', color:'var(--z1)', bg:'var(--z1l)', places:'Oeste · Funes · Roldán · Pérez · Soldani' },
+  '2':{ label:'Zona 2 · Norte', dias:'Martes y Sábados', color:'var(--z2)', bg:'var(--z2l)', places:'Norte · Baigorria · Ibarlucea · Bermúdez' },
+  '3':{ label:'Zona 3 · Centro/Sur', dias:'Jueves y Martes', color:'var(--z3)', bg:'var(--z3l)', places:'Centro · Sur · Pueblo Esther · Gálvez' },
+};
+const TIPOS = { colocacion:'Colocación', arreglo:'Arreglo', medicion:'Medición', otro:'Otro' };
+
+// ── CONFIG ──
+function getSavedConfig(){ try{ return JSON.parse(localStorage.getItem(CFG_KEY)); }catch{ return null; } }
+function saveConfig(cfg){ localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); }
+
+// ── LOGIN ROLE SELECTION ──
+window.selectRole = function(role){
+  currentRole = role;
+  document.getElementById('roleVendedor').classList.toggle('active', role==='vendedor');
+  document.getElementById('roleAdmin').classList.toggle('active', role==='admin');
+  document.getElementById('vendedorFields').style.display = role==='vendedor'?'block':'none';
+  document.getElementById('adminFields').style.display = role==='admin'?'block':'none';
+  document.getElementById('loginError').textContent = '';
+};
+
+// PIN input auto-advance
+for(let i=0;i<6;i++){
+  const el = document.getElementById('p'+i);
+  el.addEventListener('input', ()=>{
+    if(el.value && i<5) document.getElementById('p'+(i+1)).focus();
+  });
+  el.addEventListener('keydown', e=>{
+    if(e.key==='Backspace'&&!el.value&&i>0) document.getElementById('p'+(i-1)).focus();
+    if(e.key==='Enter') doLogin();
+  });
+}
+
+window.doLogin = async function(){
+  const err = document.getElementById('loginError');
+  err.textContent = '';
+  if(currentRole === 'admin'){
+    const pin = [0,1,2,3,4,5].map(i=>document.getElementById('p'+i).value).join('');
+    if(pin !== ADMIN_PIN){ err.textContent = 'PIN incorrecto. Intentá de nuevo.'; return; }
+    currentNombre = 'Juan';
+    await arrancarApp('admin');
+  } else {
+    const nombre = document.getElementById('loginNombre').value.trim();
+    if(!nombre){ err.textContent = 'Escribí tu nombre para continuar.'; return; }
+    currentNombre = nombre;
+    await arrancarApp('vendedor');
+  }
+};
+
+document.getElementById('loginNombre').addEventListener('keydown', e=>{ if(e.key==='Enter') doLogin(); });
+
+window.cerrarSesion = function(){
+  currentRole = null; currentNombre = null;
+  document.getElementById('appScreen').style.display = 'none';
+  document.getElementById('loginScreen').classList.add('visible');
+  selectRole('vendedor');
+  document.getElementById('loginNombre').value = '';
+  [0,1,2,3,4,5].forEach(i=>{ document.getElementById('p'+i).value=''; });
+};
+
+// ── START APP ──
+async function arrancarApp(role){
+  document.getElementById('loginScreen').classList.remove('visible');
+  const cfg = getSavedConfig();
+  if(!cfg || !cfg.apiKey){ document.getElementById('setupScreen').classList.add('visible'); return; }
+  document.getElementById('loadingScreen').classList.add('visible');
+  document.getElementById('loadingText').textContent = 'Conectando con Firebase...';
+  try{
+    const app = initializeApp(cfg);
+    db = getFirestore(app);
+    const q = query(collection(db,'ordenes'), orderBy('creado','desc'));
+    onSnapshot(q, snap=>{
+      ordenes = snap.docs.map(d=>({id:d.id,...d.data()}));
+      render();
+      setSyncOk(true);
+    }, ()=>setSyncOk(false));
+    document.getElementById('loadingScreen').classList.remove('visible');
+    setupAppUI(role);
+  } catch(e){
+    document.getElementById('loadingScreen').classList.remove('visible');
+    document.getElementById('setupError').style.display='block';
+    document.getElementById('setupScreen').classList.add('visible');
+  }
+}
+
+function setupAppUI(role){
+  document.getElementById('appScreen').style.display = 'block';
+  const isAdmin = role === 'admin';
+  // user chip
+  const chip = document.getElementById('userChip');
+  chip.textContent = isAdmin ? '🔧 Juan' : '🧑‍💼 '+currentNombre;
+  chip.className = 'user-chip' + (isAdmin?' admin':'');
+  // admin-only elements
+  document.getElementById('zoneTabs').style.display = isAdmin ? 'flex' : 'none';
+  document.getElementById('btnCfg').style.display = isAdmin ? 'flex' : 'none';
+  document.getElementById('vendedorBar').style.display = isAdmin ? 'none' : 'flex';
+  document.getElementById('vendedorBarTitle').textContent = 'Hola, '+currentNombre+' 👋';
+  // vendedor row in form: lock name
+  if(!isAdmin){
+    document.getElementById('f-vendedor').value = currentNombre;
+    document.getElementById('f-vendedor').readOnly = true;
+  }
+  setTodayUI();
+  setInterval(setTodayUI, 60000);
+  render();
+}
+
+// ── SETUP ──
+window.conectarFirebase = async function(){
+  const cfg = {
+    apiKey: document.getElementById('cfg-apiKey').value.trim(),
+    authDomain: document.getElementById('cfg-authDomain').value.trim(),
+    projectId: document.getElementById('cfg-projectId').value.trim(),
+    appId: document.getElementById('cfg-appId').value.trim(),
+    storageBucket: document.getElementById('cfg-authDomain').value.trim().replace('firebaseapp.com','appspot.com'),
+    messagingSenderId: '000000000000',
+  };
+  if(!cfg.apiKey||!cfg.authDomain||!cfg.projectId||!cfg.appId){
+    document.getElementById('setupError').style.display='block';
+    document.getElementById('setupError').textContent='Completá todos los campos.';
+    return;
+  }
+  saveConfig(cfg);
+  document.getElementById('setupScreen').classList.remove('visible');
+  if(currentRole) await arrancarApp(currentRole);
+};
+
+window.abrirConfig = function(){
+  const cfg = getSavedConfig()||{};
+  document.getElementById('cfg-apiKey').value=cfg.apiKey||'';
+  document.getElementById('cfg-authDomain').value=cfg.authDomain||'';
+  document.getElementById('cfg-projectId').value=cfg.projectId||'';
+  document.getElementById('cfg-appId').value=cfg.appId||'';
+  document.getElementById('setupError').style.display='none';
+  document.getElementById('setupScreen').classList.add('visible');
+};
+
+function setSyncOk(ok){
+  const d=document.getElementById('syncDot');
+  d.className='sync-dot '+(ok?'ok':'error');
+  d.title=ok?'Conectado a Firebase ✓':'Sin conexión';
+}
+
+// ── TODAY ──
+function getTodayZone(){
+  const d=new Date().getDay();
+  if(d===1||d===3||d===5) return '1';
+  if(d===2||d===6) return '2';
+  if(d===4) return '3';
+  return null;
+}
+
+function setTodayUI(){
+  const days=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const today=new Date();
+  document.getElementById('todayBadge').innerHTML=`<strong>${days[today.getDay()]}</strong> ${today.toLocaleDateString('es-AR',{day:'numeric',month:'long'})}`;
+  const tz=getTodayZone();
+  const banner=document.getElementById('todayBanner');
+  if(tz && currentRole==='admin'){
+    const z=ZONAS[tz];
+    banner.style.cssText=`background:${z.bg};border-color:${z.color};color:${z.color};display:flex;`;
+    banner.innerHTML=`<span style="font-size:18px">📍</span><span>Hoy corresponde la <strong>${z.label}</strong> — ${z.places}</span>`;
+  } else { banner.style.display='none'; }
+}
+
+// ── RENDER ──
+function render(){
+  if(!document.getElementById('appScreen') || document.getElementById('appScreen').style.display==='none') return;
+  const isAdmin = currentRole==='admin';
+  const list=document.getElementById('ordenList');
+  let filtered = ordenes.filter(o=>{
+    if(!isAdmin && o.vendedor !== currentNombre) return false;
+    if(isAdmin && activeZone!=='all' && o.zona!==activeZone) return false;
+    if(activeTipo!=='all' && o.tipo!==activeTipo) return false;
+    return true;
+  });
+  const pending=filtered.filter(o=>!o.done);
+  const done=filtered.filter(o=>o.done);
+  if(isAdmin){
+    ['1','2','3'].forEach(z=>{ document.getElementById('badge-'+z).textContent=ordenes.filter(o=>o.zona===z&&!o.done).length; });
+    document.getElementById('badge-all').textContent=ordenes.filter(o=>!o.done).length;
+  }
+  list.innerHTML='';
+  if(pending.length===0&&(!showDone||done.length===0)){
+    list.innerHTML=`<div class="empty"><div class="empty-icon">📋</div><p>${isAdmin?'No hay órdenes pendientes':'No tenés órdenes cargadas todavía'}</p><small>Hacé clic en "Nueva orden" para agregar una</small></div>`;
+    return;
+  }
+  pending.forEach(o=>list.appendChild(makeCard(o)));
+  if(showDone&&done.length>0){
+    const dh=document.createElement('div');
+    dh.className='done-header';
+    dh.textContent=`Terminados (${done.length})`;
+    list.appendChild(dh);
+    done.forEach(o=>list.appendChild(makeCard(o)));
+  }
+}
+
+function makeCard(o){
+  const isAdmin=currentRole==='admin';
+  const card=document.createElement('div');
+  card.className=`orden-card z${o.zona}${o.done?' done':''}`;
+  const tipoCls={colocacion:'tipo-colocacion',arreglo:'tipo-arreglo',medicion:'tipo-medicion',otro:'tipo-otro'}[o.tipo]||'tipo-otro';
+  card.innerHTML=`
+    <div class="orden-stripe"></div>
+    <div class="orden-body">
+      <div class="orden-actions-left">
+        ${isAdmin?`
+        <button class="btn-icon" onclick="editOrden('${o.id}')" title="Editar orden">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        </button>
+        <button class="btn-icon btn-del" onclick="deleteOrden('${o.id}')" title="Eliminar">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M9 6V4h6v2"/></svg>
+        </button>`:''}
+      </div>
+      <div class="orden-info">
+        <div class="orden-top">
+          <span class="orden-cliente">${esc(o.cliente)}</span>
+          <span class="tipo-badge ${tipoCls}">${TIPOS[o.tipo]||o.tipo}</span>
+          ${o.urgente?'<span class="urgente-badge">⚠ Urgente</span>':''}
+        </div>
+        <div class="orden-dir">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ${esc(o.direccion)}
+        </div>
+        <div class="orden-meta">
+          <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${ZONAS[o.zona].dias}</span>
+          ${o.vendedor?`<span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${esc(o.vendedor)}</span>`:''}
+          <span style="color:${ZONAS[o.zona].color};font-weight:600">${ZONAS[o.zona].label}</span>
+        </div>
+        ${o.notas?`<div class="orden-notas">📝 ${esc(o.notas)}</div>`:''}
+      </div>
+      <div class="orden-actions-right">
+        ${isAdmin&&!o.done?`<button class="btn-terminar" onclick="confirmarTerminar('${o.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Terminado</button>`:''}
+        ${isAdmin&&o.done?`<button class="btn-reabrir" onclick="reabrirOrden('${o.id}')">↩ Reabrir</button>`:''}
+        ${isAdmin?`<button class="btn-print" onclick="imprimirOrden('${o.id}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Imprimir</button>`:''}
+      </div>
+    </div>`;
+  return card;
+}
+
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ── PRINT ──
+window.imprimirOrden = function(id){
+  const o = ordenes.find(x=>x.id===id);
+  if(!o) return;
+  const fecha = o.creado?.toDate ? o.creado.toDate().toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'}) : 'Sin fecha';
+  const estado = o.done ? '✅ Terminado' : '🕐 Pendiente';
+  const urgente = o.urgente ? '⚠️ SÍ — URGENTE' : 'No';
+  const pa = document.getElementById('printArea');
+  pa.style.display = 'block';
+  pa.innerHTML = `
+    <div class="print-header">
+      <div class="print-title">Orden de Trabajo</div>
+      <div class="print-fecha">Fecha de carga: ${fecha} &nbsp;|&nbsp; Estado: ${estado}</div>
+    </div>
+    <div class="print-body">
+      <div class="print-row"><span class="print-key">Cliente</span><span class="print-val">${esc(o.cliente)}</span></div>
+      <div class="print-row"><span class="print-key">Dirección</span><span class="print-val">${esc(o.direccion)}</span></div>
+      <div class="print-row"><span class="print-key">Tipo de trabajo</span><span class="print-val">${TIPOS[o.tipo]||o.tipo}</span></div>
+      <div class="print-row"><span class="print-key">Zona</span><span class="print-val">${ZONAS[o.zona].label} — ${ZONAS[o.zona].dias}</span></div>
+      <div class="print-row"><span class="print-key">Vendedor</span><span class="print-val">${esc(o.vendedor)||'—'}</span></div>
+      <div class="print-row"><span class="print-key">Urgente</span><span class="print-val">${urgente}</span></div>
+      ${o.notas?`<div class="print-notas-box"><div class="print-notas-title">📝 Notas y observaciones</div><div class="print-notas-text">${esc(o.notas)}</div></div>`:''}
+      <div class="print-firma">
+        <div class="print-firma-box">Firma del técnico</div>
+        <div class="print-firma-box">Firma del cliente</div>
+        <div class="print-firma-box">Fecha de realización</div>
+      </div>
+    </div>`;
+  setTimeout(()=>{ window.print(); pa.style.display='none'; }, 100);
+};
+
+// ── ACTIONS ──
+window.setZone = function(z){
+  activeZone=z;
+  document.querySelectorAll('.zone-tab').forEach(t=>t.classList.remove('active'));
+  const tabs=document.querySelectorAll('.zone-tab');
+  const idx=['all','1','2','3'].indexOf(z);
+  if(tabs[idx]) tabs[idx].classList.add('active');
+  render();
+};
+
+window.setTipo = function(t,btn){
+  activeTipo=t;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  render();
+};
+
+window.toggleDone = function(){
+  showDone=!showDone;
+  document.getElementById('showDoneBtn').classList.toggle('active',showDone);
+  render();
+};
+
+window.confirmarTerminar = function(id){
+  const o=ordenes.find(x=>x.id===id);
+  if(!o) return;
+  document.getElementById('confirmNombre').textContent=o.cliente;
+  document.getElementById('confirmOverlay').dataset.id=id;
+  document.getElementById('confirmOverlay').classList.add('open');
+};
+
+window.cerrarConfirm = function(){ document.getElementById('confirmOverlay').classList.remove('open'); };
+
+window.archivarOrden = async function(){
+  const id=document.getElementById('confirmOverlay').dataset.id;
+  await updateDoc(doc(db,'ordenes',id),{done:true});
+  cerrarConfirm();
+};
+
+window.reabrirOrden = async function(id){
+  await updateDoc(doc(db,'ordenes',id),{done:false});
+};
+
+window.deleteOrden = async function(id){
+  if(!confirm('¿Eliminar esta orden?')) return;
+  await deleteDoc(doc(db,'ordenes',id));
+};
+
+// ── MODAL ──
+window.openModal = function(id){
+  editId=id||null;
+  document.getElementById('modalTitle').textContent=id?'Editar orden':'Nueva orden de trabajo';
+  const isAdmin=currentRole==='admin';
+  if(id){
+    const o=ordenes.find(x=>x.id===id);
+    document.getElementById('f-cliente').value=o.cliente;
+    document.getElementById('f-dir').value=o.direccion;
+    document.getElementById('f-tipo').value=o.tipo;
+    document.getElementById('f-zona').value=o.zona;
+    document.getElementById('f-vendedor').value=o.vendedor||'';
+    document.getElementById('f-urgente').checked=!!o.urgente;
+    document.getElementById('f-notas').value=o.notas||'';
+  } else {
+    document.getElementById('f-cliente').value='';
+    document.getElementById('f-dir').value='';
+    document.getElementById('f-tipo').value='colocacion';
+    document.getElementById('f-zona').value=getTodayZone()||'1';
+    document.getElementById('f-vendedor').value=isAdmin?'':(currentNombre||'');
+    document.getElementById('f-urgente').checked=false;
+    document.getElementById('f-notas').value='';
+  }
+  document.getElementById('f-vendedor').readOnly=!isAdmin;
+  document.getElementById('modalOverlay').classList.add('open');
+  setTimeout(()=>document.getElementById('f-cliente').focus(),100);
+};
+
+window.closeModal = function(){ document.getElementById('modalOverlay').classList.remove('open'); editId=null; };
+
+window.guardarOrden = async function(){
+  const cliente=document.getElementById('f-cliente').value.trim();
+  const dir=document.getElementById('f-dir').value.trim();
+  if(!cliente){ document.getElementById('f-cliente').focus(); return; }
+  if(!dir){ document.getElementById('f-dir').focus(); return; }
+  const btn=document.getElementById('btnGuardar');
+  btn.textContent='Guardando...'; btn.disabled=true;
+  const data={
+    cliente,direccion:dir,
+    tipo:document.getElementById('f-tipo').value,
+    zona:document.getElementById('f-zona').value,
+    vendedor:document.getElementById('f-vendedor').value.trim(),
+    urgente:document.getElementById('f-urgente').checked,
+    notas:document.getElementById('f-notas').value.trim(),
+  };
+  try{
+    if(editId){ await updateDoc(doc(db,'ordenes',editId),data); }
+    else { await addDoc(collection(db,'ordenes'),{...data,done:false,creado:serverTimestamp()}); }
+    closeModal();
+  } catch(e){ alert('Error al guardar. Verificá la conexión.'); }
+  btn.textContent='Guardar orden'; btn.disabled=false;
+};
+
+window.editOrden = function(id){ openModal(id); };
+
+document.getElementById('confirmOverlay').addEventListener('click',function(e){ if(e.target===this) cerrarConfirm(); });
+document.getElementById('modalOverlay').addEventListener('click',function(e){ if(e.target===this) closeModal(); });
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); cerrarConfirm(); } });
+
+// ── INIT ──
+selectRole('vendedor');
+const savedCfg = getSavedConfig();
+// If no config, setup screen will show after login
+</script>
+</body>
+</html>
