@@ -15,7 +15,7 @@
 }
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
 
-/* ── LOGIN ── */
+/* LOGIN */
 #loginScreen{display:none;position:fixed;inset:0;background:var(--bg);z-index:1000;align-items:center;justify-content:center;padding:20px;}
 #loginScreen.visible{display:flex;}
 .login-box{background:var(--paper);border-radius:24px;padding:40px 36px;width:100%;max-width:420px;box-shadow:var(--shadow-lg);border:1.5px solid var(--border);}
@@ -36,7 +36,7 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-
 .pin-digit{width:52px;height:60px;font-size:24px;font-weight:700;text-align:center;border:2px solid var(--border);border-radius:12px;background:var(--bg);color:var(--ink);outline:none;font-family:'DM Sans',sans-serif;}
 .pin-digit:focus{border-color:var(--z1);background:var(--paper);}
 
-/* ── SETUP ── */
+/* SETUP */
 #setupScreen{display:none;position:fixed;inset:0;background:var(--bg);z-index:999;overflow-y:auto;padding:40px 20px;}
 #setupScreen.visible{display:block;}
 .setup-wrap{max-width:620px;margin:0 auto;}
@@ -58,14 +58,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-
 .btn-conectar:hover{background:#3a2a10;}
 .setup-error{color:#c0392b;font-size:13px;margin-top:10px;display:none;}
 
-/* ── LOADING ── */
+/* LOADING */
 #loadingScreen{display:none;position:fixed;inset:0;background:var(--bg);z-index:998;align-items:center;justify-content:center;flex-direction:column;gap:16px;}
 #loadingScreen.visible{display:flex;}
 .spinner{width:40px;height:40px;border:3px solid var(--border);border-top-color:var(--ink);border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-size:14px;color:var(--ink2);}
 
-/* ── HEADER ── */
+/* HEADER */
 header{background:var(--paper);border-bottom:1.5px solid var(--border);padding:0 32px;height:68px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:200;box-shadow:0 1px 8px rgba(0,0,0,0.06);}
 .logo{font-family:'DM Serif Display',serif;font-size:24px;color:var(--ink);letter-spacing:-.5px;}
 .logo em{font-style:normal;color:var(--z1);}
@@ -83,21 +83,21 @@ header{background:var(--paper);border-bottom:1.5px solid var(--border);padding:0
 .btn-cfg{width:36px;height:36px;border-radius:8px;border:1.5px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink2);transition:all .15s;}
 .btn-cfg:hover{background:var(--bg);border-color:var(--ink2);}
 
-/* ── ZONE TABS (admin only) ── */
-.zone-nav{display:flex;gap:0;padding:20px 32px 0;border-bottom:2px solid var(--border);background:var(--paper);overflow-x:auto;}
-.zone-tab{font-size:13px;font-weight:600;padding:10px 20px 12px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .15s,border-color .15s;color:var(--ink2);white-space:nowrap;display:flex;align-items:center;gap:7px;}
+/* NAV TABS */
+.zone-nav{display:flex;gap:0;padding:0 32px;border-bottom:2px solid var(--border);background:var(--paper);overflow-x:auto;}
+.zone-tab{font-size:13px;font-weight:600;padding:16px 20px 14px;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:color .15s,border-color .15s;color:var(--ink2);white-space:nowrap;display:flex;align-items:center;gap:7px;}
 .zone-tab .dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.5;}
-.zone-tab.z1{color:var(--z1);}.zone-tab.z2{color:var(--z2);}.zone-tab.z3{color:var(--z3);}.zone-tab.all{color:var(--ink2);}
+.zone-tab.z1{color:var(--z1);}.zone-tab.z2{color:var(--z2);}.zone-tab.z3{color:var(--z3);}.zone-tab.all{color:var(--ink2);}.zone-tab.cal{color:#7c3aed;}
 .zone-tab.active{border-bottom-color:currentColor;opacity:1;}
 .zone-tab .badge{background:currentColor;color:var(--paper);font-size:11px;font-weight:700;border-radius:10px;padding:1px 7px;min-width:22px;text-align:center;}
 
-/* ── VENDEDOR HEADER BAR ── */
+/* VENDEDOR BAR */
 .vendedor-bar{background:var(--paper);border-bottom:1.5px solid var(--border);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;}
 .vendedor-bar-title{font-size:15px;font-weight:600;color:var(--ink);}
 .vendedor-bar-sub{font-size:13px;color:var(--ink2);}
 
-/* ── MAIN ── */
-.main{max-width:920px;margin:0 auto;padding:28px 24px 80px;}
+/* MAIN */
+.main{max-width:960px;margin:0 auto;padding:28px 24px 80px;}
 .today-banner{border-radius:14px;padding:14px 20px;margin-bottom:24px;font-size:14px;font-weight:500;display:none;align-items:center;gap:10px;border:1.5px solid transparent;}
 .filters{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap;align-items:center;}
 .filter-btn{font-size:12px;font-weight:600;padding:6px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--paper);color:var(--ink2);cursor:pointer;transition:all .15s;}
@@ -107,7 +107,7 @@ header{background:var(--paper);border-bottom:1.5px solid var(--border);padding:0
 .show-done-btn:hover{border-color:#888;color:#888;}
 .show-done-btn.active{background:#f5f5f3;border-color:#888;color:#888;}
 
-/* ── CARDS ── */
+/* CARDS */
 .orden-list{display:flex;flex-direction:column;gap:10px;}
 .orden-card{background:var(--paper);border-radius:14px;border:1.5px solid var(--border);box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .2s,transform .15s;animation:slideIn .25s ease both;}
 @keyframes slideIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -116,7 +116,7 @@ header{background:var(--paper);border-bottom:1.5px solid var(--border);padding:0
 .orden-card.done:hover{transform:none;box-shadow:none;}
 .done .orden-stripe{background:#2aaa6e !important;}
 .done .orden-cliente{color:#1a6640;text-decoration:line-through;}
-.done .orden-dir,.done .orden-meta,.done .orden-notas{color:#2e7a52;}
+.done .orden-dir,.done .orden-meta,.done .orden-notas,.done .orden-fecha{color:#2e7a52;}
 .done .orden-notas{background:#b8ecd0;border-left-color:#7ed9a8;}
 .orden-stripe{height:4px;width:100%;}
 .z1 .orden-stripe{background:var(--z1);}.z2 .orden-stripe{background:var(--z2);}.z3 .orden-stripe{background:var(--z3);}
@@ -136,9 +136,17 @@ header{background:var(--paper);border-bottom:1.5px solid var(--border);padding:0
 .tipo-colocacion{background:#fff0e0;color:#9a4a00;}.tipo-arreglo{background:#e0f0ff;color:#005a9a;}.tipo-medicion{background:#e0f7ee;color:#006633;}.tipo-otro{background:#f0eeff;color:#4a0090;}
 .urgente-badge{font-size:10px;font-weight:700;background:#ffe0e0;color:#a00000;border-radius:10px;padding:2px 8px;letter-spacing:.5px;text-transform:uppercase;}
 .orden-dir{font-size:13px;color:var(--ink2);margin-bottom:3px;display:flex;align-items:center;gap:5px;}
+.orden-fecha{font-size:12px;color:var(--ink2);margin-bottom:3px;display:flex;align-items:center;gap:5px;font-weight:500;}
+.orden-fecha.vence-hoy{color:#e8681a;font-weight:600;}
+.orden-fecha.vencida{color:#c0392b;font-weight:600;}
 .orden-meta{display:flex;gap:14px;font-size:12px;color:var(--ink2);flex-wrap:wrap;}
 .orden-meta span{display:flex;align-items:center;gap:4px;}
 .orden-notas{margin-top:8px;font-size:13px;color:var(--ink2);background:var(--bg);border-radius:8px;padding:8px 12px;line-height:1.5;border-left:3px solid var(--border);}
+.checklist-preview{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap;}
+.check-item{font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600;}
+.check-item.ok{background:#e6f7f0;color:#1a6640;}
+.check-item.no{background:#ffe0e0;color:#a00000;}
+.check-item.pend{background:#f5f5f3;color:#888;}
 .btn-icon{width:32px;height:32px;border-radius:8px;border:1.5px solid var(--border);background:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--ink2);transition:all .15s;}
 .btn-icon:hover{background:var(--bg);border-color:var(--ink2);}
 .btn-del:hover{border-color:#c00;color:#c00;background:#fff0f0;}
@@ -148,7 +156,46 @@ header{background:var(--paper);border-bottom:1.5px solid var(--border);padding:0
 .done-header{font-size:12px;font-weight:600;color:#888;letter-spacing:1px;text-transform:uppercase;margin:24px 0 10px;display:flex;align-items:center;gap:8px;}
 .done-header::after{content:'';flex:1;height:1px;background:var(--border);}
 
-/* ── MODAL ── */
+/* CALENDAR */
+#calendarView{display:none;}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.cal-title{font-family:'DM Serif Display',serif;font-size:22px;color:var(--ink);}
+.cal-nav{display:flex;gap:8px;}
+.cal-nav button{width:36px;height:36px;border-radius:8px;border:1.5px solid var(--border);background:var(--paper);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.cal-nav button:hover{background:var(--bg);}
+.cal-view-toggle{display:flex;gap:0;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;}
+.cal-view-btn{font-size:12px;font-weight:600;padding:6px 14px;border:none;background:var(--paper);color:var(--ink2);cursor:pointer;transition:all .15s;}
+.cal-view-btn.active{background:var(--ink);color:#fff;}
+
+/* MONTHLY CALENDAR */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px;}
+.cal-day-header{font-size:11px;font-weight:700;text-align:center;padding:6px 0;color:var(--ink2);letter-spacing:.5px;text-transform:uppercase;}
+.cal-day{min-height:80px;background:var(--paper);border-radius:10px;border:1.5px solid var(--border);padding:6px;cursor:pointer;transition:all .15s;position:relative;}
+.cal-day:hover{border-color:var(--ink2);box-shadow:var(--shadow);}
+.cal-day.other-month{opacity:.35;}
+.cal-day.today{border-color:var(--z1);background:#fff8f3;}
+.cal-day.selected{border-color:#7c3aed;background:#f5f0ff;}
+.cal-day-num{font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:4px;}
+.cal-day.today .cal-day-num{color:var(--z1);}
+.cal-dots{display:flex;flex-wrap:wrap;gap:3px;}
+.cal-dot{width:8px;height:8px;border-radius:50%;}
+
+/* WEEKLY VIEW */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:8px;}
+.week-day{background:var(--paper);border-radius:12px;border:1.5px solid var(--border);padding:10px;min-height:120px;}
+.week-day.today{border-color:var(--z1);background:#fff8f3;}
+.week-day-header{font-size:11px;font-weight:700;text-align:center;margin-bottom:8px;color:var(--ink2);text-transform:uppercase;}
+.week-day.today .week-day-header{color:var(--z1);}
+.week-day-num{font-size:18px;font-weight:700;text-align:center;margin-bottom:8px;color:var(--ink);}
+.week-orden-item{font-size:11px;padding:4px 6px;border-radius:6px;margin-bottom:4px;cursor:pointer;line-height:1.3;border-left:3px solid transparent;background:var(--bg);}
+.week-orden-item:hover{opacity:.8;}
+
+/* DAY PANEL */
+.day-panel{background:var(--paper);border-radius:14px;border:1.5px solid var(--border);padding:20px;margin-top:16px;}
+.day-panel-title{font-family:'DM Serif Display',serif;font-size:18px;margin-bottom:16px;color:var(--ink);}
+.day-panel-empty{font-size:14px;color:var(--ink2);text-align:center;padding:20px;}
+
+/* MODAL */
 .modal-overlay{position:fixed;inset:0;background:rgba(20,12,0,0.45);z-index:500;display:none;align-items:center;justify-content:center;padding:20px;}
 .modal-overlay.open{display:flex;}
 .modal{background:var(--paper);border-radius:20px;padding:32px;width:100%;max-width:520px;box-shadow:0 24px 64px rgba(0,0,0,0.18);animation:modalIn .22s cubic-bezier(.34,1.56,.64,1) both;max-height:90vh;overflow-y:auto;}
@@ -158,7 +205,7 @@ header{background:var(--paper);border-bottom:1.5px solid var(--border);padding:0
 .form-group{display:flex;flex-direction:column;gap:5px;flex:1;min-width:180px;}
 .form-group.full{min-width:100%;}
 label{font-size:11px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;color:var(--ink2);}
-input[type=text],select,textarea{font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;width:100%;}
+input[type=text],input[type=date],select,textarea{font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);color:var(--ink);outline:none;transition:border-color .2s,box-shadow .2s;width:100%;}
 input:focus,select:focus,textarea:focus{border-color:var(--z1);box-shadow:0 0 0 3px rgba(232,104,26,0.12);background:var(--paper);}
 textarea{resize:vertical;min-height:80px;font-size:16px !important;}
 .urgente-row{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
@@ -170,7 +217,18 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
 .btn-guardar{font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;padding:10px 24px;border-radius:10px;border:none;background:var(--ink);color:#fff;cursor:pointer;transition:background .15s;}
 .btn-guardar:hover{background:#3a2a10;}
 
-/* ── PRINT ── */
+/* CHECKLIST */
+.checklist-section{background:var(--bg);border-radius:12px;padding:14px;margin-bottom:14px;border:1.5px solid var(--border);}
+.checklist-title{font-size:11px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--ink2);margin-bottom:12px;}
+.check-row{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border);}
+.check-row:last-child{border-bottom:none;}
+.check-label{font-size:14px;color:var(--ink);font-weight:500;}
+.check-options{display:flex;gap:6px;}
+.check-opt{font-size:12px;font-weight:600;padding:4px 12px;border-radius:8px;border:1.5px solid var(--border);background:none;cursor:pointer;transition:all .15s;color:var(--ink2);}
+.check-opt.ok.active{background:#e6f7f0;border-color:#2aaa6e;color:#1a6640;}
+.check-opt.no.active{background:#ffe0e0;border-color:#c0392b;color:#a00000;}
+
+/* PRINT */
 @media print {
   body * { visibility: hidden; }
   #printArea, #printArea * { visibility: visible; }
@@ -180,21 +238,27 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
   .print-fecha { font-size: 13px; color: #666; margin-top: 4px; }
   .print-body { font-size: 15px; line-height: 2; }
   .print-row { display: flex; gap: 12px; border-bottom: 1px solid #eee; padding: 8px 0; }
-  .print-key { font-weight: 600; min-width: 160px; color: #333; }
+  .print-key { font-weight: 600; min-width: 180px; color: #333; }
   .print-val { color: #111; }
   .print-notas-box { margin-top: 20px; border: 1.5px solid #333; border-radius: 8px; padding: 16px; }
   .print-notas-title { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
   .print-notas-text { font-size: 15px; line-height: 1.7; }
+  .print-checklist { margin-top: 20px; border: 1.5px solid #333; border-radius: 8px; padding: 16px; }
+  .print-checklist-title { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .print-check-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #eee; font-size: 14px; }
   .print-firma { margin-top: 48px; display: flex; gap: 48px; }
   .print-firma-box { flex: 1; border-top: 1.5px solid #333; padding-top: 8px; font-size: 13px; color: #666; text-align: center; }
 }
 
 @media(max-width:600px){
   header{padding:0 16px;gap:8px;}
-  .zone-nav{padding:16px 16px 0;}
+  .zone-nav{padding:0 16px;}
   .main{padding:16px 12px 60px;}
   .modal{padding:20px;}
   .vendedor-bar{padding:12px 16px;}
+  .cal-grid,.week-grid{gap:2px;}
+  .cal-day{min-height:56px;padding:4px;}
+  .week-grid{grid-template-columns:repeat(7,1fr);}
 }
 </style>
 </head>
@@ -206,19 +270,13 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
     <div class="login-logo">Órdenes <em>·</em> Trabajo</div>
     <div class="login-sub">¿Quién sos?</div>
     <div class="role-btns">
-      <button class="role-btn active" id="roleVendedor" onclick="selectRole('vendedor')">
-        <span class="role-icon">🧑‍💼</span> Vendedor
-      </button>
-      <button class="role-btn" id="roleAdmin" onclick="selectRole('admin')">
-        <span class="role-icon">🔧</span> Juan (Admin)
-      </button>
+      <button class="role-btn active" id="roleVendedor" onclick="selectRole('vendedor')"><span class="role-icon">🧑‍💼</span> Vendedor</button>
+      <button class="role-btn" id="roleAdmin" onclick="selectRole('admin')"><span class="role-icon">🔧</span> Juan (Admin)</button>
     </div>
-    <!-- Vendedor fields -->
     <div id="vendedorFields">
       <label class="login-label">Tu nombre</label>
       <input type="text" class="login-input" id="loginNombre" placeholder="Escribí tu nombre completo" />
     </div>
-    <!-- Admin fields -->
     <div id="adminFields" style="display:none;">
       <label class="login-label">PIN de acceso</label>
       <div class="pin-row">
@@ -239,7 +297,7 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
 <div id="setupScreen">
   <div class="setup-wrap">
     <div class="setup-logo">Órdenes <em>·</em> Juan</div>
-    <p class="setup-sub">Para que los datos se guarden en la nube y puedan verlos desde cualquier computadora, necesitás conectar Firebase. Solo hay que hacer esto una vez.</p>
+    <p class="setup-sub">Para que los datos se guarden en la nube, necesitás conectar Firebase. Solo hay que hacer esto una vez.</p>
     <div class="step-block">
       <div class="step-num">1</div>
       <div class="step-title">Crear el proyecto en Firebase</div>
@@ -252,13 +310,9 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
     </div>
     <div class="step-block">
       <div class="step-num">3</div>
-      <div class="step-title">Registrar la app web</div>
-      <div class="step-body">Engranaje ⚙️ → <strong>"Configuración del proyecto"</strong> → bajá a <strong>"Tus apps"</strong> → ícono <code>&lt;/&gt;</code>. Poné un nombre y registrá. Te va a mostrar los datos de configuración.</div>
-    </div>
-    <div class="step-block">
-      <div class="step-num">4</div>
-      <div class="step-title">Pegá los datos de configuración acá</div>
+      <div class="step-title">Registrar la app web y pegar los datos</div>
       <div class="step-body">
+        Engranaje ⚙️ → <strong>"Configuración del proyecto"</strong> → bajá a <strong>"Tus apps"</strong> → ícono <code>&lt;/&gt;</code>. Poné un nombre y registrá.
         <div class="step-img">const firebaseConfig = {<br>&nbsp;&nbsp;apiKey: "<strong>← copiá</strong>",<br>&nbsp;&nbsp;authDomain: "<strong>← copiá</strong>",<br>&nbsp;&nbsp;projectId: "<strong>← copiá</strong>",<br>&nbsp;&nbsp;appId: "<strong>← copiá</strong>"<br>};</div>
       </div>
       <div class="config-inputs">
@@ -281,7 +335,6 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
 
 <!-- APP -->
 <div id="appScreen" style="display:none;">
-
   <header>
     <div class="logo">Órdenes <em>·</em> Trabajo</div>
     <div class="header-right">
@@ -299,15 +352,16 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
     </div>
   </header>
 
-  <!-- Admin: zone tabs -->
+  <!-- Admin tabs -->
   <div class="zone-nav" id="zoneTabs">
     <div class="zone-tab all active" onclick="setZone('all')"><div class="dot"></div>Todas<span class="badge" id="badge-all">0</span></div>
     <div class="zone-tab z1" onclick="setZone('1')"><div class="dot"></div>Zona 1 · Oeste<span class="badge" id="badge-1">0</span></div>
     <div class="zone-tab z2" onclick="setZone('2')"><div class="dot"></div>Zona 2 · Norte<span class="badge" id="badge-2">0</span></div>
     <div class="zone-tab z3" onclick="setZone('3')"><div class="dot"></div>Zona 3 · Centro/Sur<span class="badge" id="badge-3">0</span></div>
+    <div class="zone-tab cal" onclick="setZone('cal')"><div class="dot"></div>📅 Calendario</div>
   </div>
 
-  <!-- Vendedor: info bar -->
+  <!-- Vendedor bar -->
   <div class="vendedor-bar" id="vendedorBar" style="display:none;">
     <div>
       <div class="vendedor-bar-title" id="vendedorBarTitle"></div>
@@ -317,21 +371,44 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
 
   <div class="main">
     <div class="today-banner" id="todayBanner"></div>
-    <div class="filters" id="filtersBar">
-      <button class="filter-btn active" onclick="setTipo('all',this)">Todos</button>
-      <button class="filter-btn" onclick="setTipo('colocacion',this)">Colocación</button>
-      <button class="filter-btn" onclick="setTipo('arreglo',this)">Arreglo</button>
-      <button class="filter-btn" onclick="setTipo('medicion',this)">Medición</button>
-      <button class="filter-btn" onclick="setTipo('otro',this)">Otro</button>
-      <div class="filter-sep"></div>
-      <button class="show-done-btn" id="showDoneBtn" onclick="toggleDone()">Mostrar terminados</button>
+
+    <!-- Lista de órdenes -->
+    <div id="listView">
+      <div class="filters" id="filtersBar">
+        <button class="filter-btn active" onclick="setTipo('all',this)">Todos</button>
+        <button class="filter-btn" onclick="setTipo('colocacion',this)">Colocación</button>
+        <button class="filter-btn" onclick="setTipo('arreglo',this)">Arreglo</button>
+        <button class="filter-btn" onclick="setTipo('medicion',this)">Medición</button>
+        <button class="filter-btn" onclick="setTipo('otro',this)">Otro</button>
+        <div class="filter-sep"></div>
+        <button class="show-done-btn" id="showDoneBtn" onclick="toggleDone()">Mostrar terminados</button>
+      </div>
+      <div class="orden-list" id="ordenList"></div>
     </div>
-    <div class="orden-list" id="ordenList"></div>
+
+    <!-- Calendario -->
+    <div id="calendarView">
+      <div class="cal-header">
+        <div class="cal-title" id="calTitle"></div>
+        <div style="display:flex;gap:10px;align-items:center;">
+          <div class="cal-view-toggle">
+            <button class="cal-view-btn active" id="btnMonthly" onclick="setCalView('monthly')">Mensual</button>
+            <button class="cal-view-btn" id="btnWeekly" onclick="setCalView('weekly')">Semanal</button>
+          </div>
+          <div class="cal-nav">
+            <button onclick="calPrev()">‹</button>
+            <button onclick="calToday()">Hoy</button>
+            <button onclick="calNext()">›</button>
+          </div>
+        </div>
+      </div>
+      <div id="calGrid"></div>
+      <div id="dayPanel" style="display:none;"></div>
+    </div>
   </div>
+</div>
 
-</div><!-- /appScreen -->
-
-<!-- PRINT AREA (hidden until print) -->
+<!-- PRINT AREA -->
 <div id="printArea" style="display:none;"></div>
 
 <!-- MODAL ORDEN -->
@@ -342,14 +419,49 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
     <div class="form-row"><div class="form-group full"><label>Dirección</label><input type="text" id="f-dir" placeholder="Calle, número, localidad"/></div></div>
     <div class="form-row">
       <div class="form-group"><label>Tipo de trabajo</label>
-        <select id="f-tipo"><option value="colocacion">Colocación</option><option value="arreglo">Arreglo</option><option value="medicion">Medición en obra</option><option value="otro">Otro</option></select>
+        <select id="f-tipo" onchange="toggleChecklist()">
+          <option value="colocacion">Colocación</option>
+          <option value="arreglo">Arreglo</option>
+          <option value="medicion">Medición en obra</option>
+          <option value="otro">Otro</option>
+        </select>
       </div>
       <div class="form-group"><label>Zona</label>
-        <select id="f-zona"><option value="1">Zona 1 · Oeste (Lu/Mi/Vi)</option><option value="2">Zona 2 · Norte (Ma/Sá)</option><option value="3">Zona 3 · Centro/Sur (Ju/Ma)</option></select>
+        <select id="f-zona">
+          <option value="1">Zona 1 · Oeste (Lu/Mi/Vi)</option>
+          <option value="2">Zona 2 · Norte (Ma/Sá)</option>
+          <option value="3">Zona 3 · Centro/Sur (Ju/Ma)</option>
+        </select>
       </div>
     </div>
-    <div class="form-row" id="vendedorRow"><div class="form-group"><label>Vendedor</label><input type="text" id="f-vendedor" placeholder="Nombre del vendedor"/></div></div>
+    <div class="form-row" id="vendedorRow"><div class="form-group"><label>Vendedor</label><input type="text" id="f-vendedor" placeholder="Nombre del vendedor"/></div>
+    <div class="form-group" id="fechaRow" style="display:none;"><label>Fecha estimada</label><input type="date" id="f-fecha"/></div></div>
     <div class="urgente-row"><input type="checkbox" id="f-urgente"/><label for="f-urgente">⚠️ Marcar como urgente</label></div>
+    <!-- Checklist colocación -->
+    <div class="checklist-section" id="checklistSection" style="display:none;">
+      <div class="checklist-title">✔ Verificación previa — Colocación</div>
+      <div class="check-row">
+        <span class="check-label">Reboque terminado</span>
+        <div class="check-options">
+          <button class="check-opt ok" data-item="reboque" data-val="ok" onclick="setCheck('reboque','ok',this)">✓ OK</button>
+          <button class="check-opt no" data-item="reboque" data-val="no" onclick="setCheck('reboque','no',this)">✗ No</button>
+        </div>
+      </div>
+      <div class="check-row">
+        <span class="check-label">Piso / carpeta colocada</span>
+        <div class="check-options">
+          <button class="check-opt ok" data-item="piso" data-val="ok" onclick="setCheck('piso','ok',this)">✓ OK</button>
+          <button class="check-opt no" data-item="piso" data-val="no" onclick="setCheck('piso','no',this)">✗ No</button>
+        </div>
+      </div>
+      <div class="check-row">
+        <span class="check-label">Vano correcto</span>
+        <div class="check-options">
+          <button class="check-opt ok" data-item="vano" data-val="ok" onclick="setCheck('vano','ok',this)">✓ OK</button>
+          <button class="check-opt no" data-item="vano" data-val="no" onclick="setCheck('vano','no',this)">✗ No</button>
+        </div>
+      </div>
+    </div>
     <div class="form-row"><div class="form-group full"><label>Notas / Observaciones</label><textarea id="f-notas" placeholder="Medidas, materiales, indicaciones especiales..."></textarea></div></div>
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
@@ -379,27 +491,25 @@ import { getFirestore, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc
 const CFG_KEY = 'firebase-cfg-juan-v1';
 const ADMIN_PIN = '025802';
 
-let db = null;
-let ordenes = [];
-let activeZone = 'all';
-let activeTipo = 'all';
-let showDone = false;
-let editId = null;
-let currentRole = null; // 'admin' | 'vendedor'
-let currentNombre = null;
+let db = null, ordenes = [], activeZone = 'all', activeTipo = 'all', showDone = false, editId = null;
+let currentRole = null, currentNombre = null;
+let calView = 'monthly', calDate = new Date(), selectedDay = null;
+let checkState = { reboque: null, piso: null, vano: null };
 
 const ZONAS = {
   '1':{ label:'Zona 1 · Oeste', dias:'Lunes, Miércoles y Viernes', color:'var(--z1)', bg:'var(--z1l)', places:'Oeste · Funes · Roldán · Pérez · Soldani' },
   '2':{ label:'Zona 2 · Norte', dias:'Martes y Sábados', color:'var(--z2)', bg:'var(--z2l)', places:'Norte · Baigorria · Ibarlucea · Bermúdez' },
   '3':{ label:'Zona 3 · Centro/Sur', dias:'Jueves y Martes', color:'var(--z3)', bg:'var(--z3l)', places:'Centro · Sur · Pueblo Esther · Gálvez' },
 };
+const ZONACOLORS = {'1':'#e8681a','2':'#1a8fd4','3':'#2aaa6e'};
 const TIPOS = { colocacion:'Colocación', arreglo:'Arreglo', medicion:'Medición', otro:'Otro' };
+const CHECKLIST_LABELS = { reboque:'Reboque terminado', piso:'Piso / carpeta colocada', vano:'Vano correcto' };
 
-// ── CONFIG ──
+// CONFIG
 function getSavedConfig(){ try{ return JSON.parse(localStorage.getItem(CFG_KEY)); }catch{ return null; } }
 function saveConfig(cfg){ localStorage.setItem(CFG_KEY, JSON.stringify(cfg)); }
 
-// ── LOGIN ROLE SELECTION ──
+// LOGIN
 window.selectRole = function(role){
   currentRole = role;
   document.getElementById('roleVendedor').classList.toggle('active', role==='vendedor');
@@ -409,16 +519,10 @@ window.selectRole = function(role){
   document.getElementById('loginError').textContent = '';
 };
 
-// PIN input auto-advance
 for(let i=0;i<6;i++){
   const el = document.getElementById('p'+i);
-  el.addEventListener('input', ()=>{
-    if(el.value && i<5) document.getElementById('p'+(i+1)).focus();
-  });
-  el.addEventListener('keydown', e=>{
-    if(e.key==='Backspace'&&!el.value&&i>0) document.getElementById('p'+(i-1)).focus();
-    if(e.key==='Enter') doLogin();
-  });
+  el.addEventListener('input', ()=>{ if(el.value && i<5) document.getElementById('p'+(i+1)).focus(); });
+  el.addEventListener('keydown', e=>{ if(e.key==='Backspace'&&!el.value&&i>0) document.getElementById('p'+(i-1)).focus(); if(e.key==='Enter') doLogin(); });
 }
 
 window.doLogin = async function(){
@@ -426,7 +530,7 @@ window.doLogin = async function(){
   err.textContent = '';
   if(currentRole === 'admin'){
     const pin = [0,1,2,3,4,5].map(i=>document.getElementById('p'+i).value).join('');
-    if(pin !== ADMIN_PIN){ err.textContent = 'PIN incorrecto. Intentá de nuevo.'; return; }
+    if(pin !== ADMIN_PIN){ err.textContent = 'PIN incorrecto.'; return; }
     currentNombre = 'Juan';
     await arrancarApp('admin');
   } else {
@@ -448,13 +552,12 @@ window.cerrarSesion = function(){
   [0,1,2,3,4,5].forEach(i=>{ document.getElementById('p'+i).value=''; });
 };
 
-// ── START APP ──
+// START
 async function arrancarApp(role){
   document.getElementById('loginScreen').classList.remove('visible');
   const cfg = getSavedConfig();
   if(!cfg || !cfg.apiKey){ document.getElementById('setupScreen').classList.add('visible'); return; }
   document.getElementById('loadingScreen').classList.add('visible');
-  document.getElementById('loadingText').textContent = 'Conectando con Firebase...';
   try{
     const app = initializeApp(cfg);
     db = getFirestore(app);
@@ -462,6 +565,7 @@ async function arrancarApp(role){
     onSnapshot(q, snap=>{
       ordenes = snap.docs.map(d=>({id:d.id,...d.data()}));
       render();
+      if(activeZone==='cal') renderCalendar();
       setSyncOk(true);
     }, ()=>setSyncOk(false));
     document.getElementById('loadingScreen').classList.remove('visible');
@@ -476,26 +580,20 @@ async function arrancarApp(role){
 function setupAppUI(role){
   document.getElementById('appScreen').style.display = 'block';
   const isAdmin = role === 'admin';
-  // user chip
   const chip = document.getElementById('userChip');
   chip.textContent = isAdmin ? '🔧 Juan' : '🧑‍💼 '+currentNombre;
   chip.className = 'user-chip' + (isAdmin?' admin':'');
-  // admin-only elements
   document.getElementById('zoneTabs').style.display = isAdmin ? 'flex' : 'none';
   document.getElementById('btnCfg').style.display = isAdmin ? 'flex' : 'none';
   document.getElementById('vendedorBar').style.display = isAdmin ? 'none' : 'flex';
   document.getElementById('vendedorBarTitle').textContent = 'Hola, '+currentNombre+' 👋';
-  // vendedor row in form: lock name
-  if(!isAdmin){
-    document.getElementById('f-vendedor').value = currentNombre;
-    document.getElementById('f-vendedor').readOnly = true;
-  }
+  document.getElementById('fechaRow').style.display = isAdmin ? 'flex' : 'none';
+  if(!isAdmin){ document.getElementById('f-vendedor').value = currentNombre; document.getElementById('f-vendedor').readOnly = true; }
   setTodayUI();
   setInterval(setTodayUI, 60000);
   render();
 }
 
-// ── SETUP ──
 window.conectarFirebase = async function(){
   const cfg = {
     apiKey: document.getElementById('cfg-apiKey').value.trim(),
@@ -525,20 +623,9 @@ window.abrirConfig = function(){
   document.getElementById('setupScreen').classList.add('visible');
 };
 
-function setSyncOk(ok){
-  const d=document.getElementById('syncDot');
-  d.className='sync-dot '+(ok?'ok':'error');
-  d.title=ok?'Conectado a Firebase ✓':'Sin conexión';
-}
+function setSyncOk(ok){ const d=document.getElementById('syncDot'); d.className='sync-dot '+(ok?'ok':'error'); d.title=ok?'Conectado ✓':'Sin conexión'; }
 
-// ── TODAY ──
-function getTodayZone(){
-  const d=new Date().getDay();
-  if(d===1||d===3||d===5) return '1';
-  if(d===2||d===6) return '2';
-  if(d===4) return '3';
-  return null;
-}
+function getTodayZone(){ const d=new Date().getDay(); if(d===1||d===3||d===5) return '1'; if(d===2||d===6) return '2'; if(d===4) return '3'; return null; }
 
 function setTodayUI(){
   const days=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
@@ -547,9 +634,10 @@ function setTodayUI(){
   document.getElementById('todayBanner').style.display='none';
 }
 
-// ── RENDER ──
+// RENDER LIST
 function render(){
-  if(!document.getElementById('appScreen') || document.getElementById('appScreen').style.display==='none') return;
+  if(activeZone==='cal') return;
+  if(!document.getElementById('appScreen')||document.getElementById('appScreen').style.display==='none') return;
   const isAdmin = currentRole==='admin';
   const list=document.getElementById('ordenList');
   let filtered = ordenes.filter(o=>{
@@ -571,10 +659,7 @@ function render(){
   }
   pending.forEach(o=>list.appendChild(makeCard(o)));
   if(showDone&&done.length>0){
-    const dh=document.createElement('div');
-    dh.className='done-header';
-    dh.textContent=`Terminados (${done.length})`;
-    list.appendChild(dh);
+    const dh=document.createElement('div'); dh.className='done-header'; dh.textContent=`Terminados (${done.length})`; list.appendChild(dh);
     done.forEach(o=>list.appendChild(makeCard(o)));
   }
 }
@@ -584,6 +669,31 @@ function makeCard(o){
   const card=document.createElement('div');
   card.className=`orden-card z${o.zona}${o.done?' done':''}`;
   const tipoCls={colocacion:'tipo-colocacion',arreglo:'tipo-arreglo',medicion:'tipo-medicion',otro:'tipo-otro'}[o.tipo]||'tipo-otro';
+
+  // fecha estimada
+  let fechaHTML = '';
+  if(o.fechaEstimada){
+    const fd = new Date(o.fechaEstimada+'T00:00:00');
+    const today = new Date(); today.setHours(0,0,0,0);
+    const diff = fd - today;
+    const dayDiff = Math.round(diff/(1000*60*60*24));
+    let cls='', label='';
+    if(dayDiff<0 && !o.done){ cls='vencida'; label=`⚠ Vencida — ${fd.toLocaleDateString('es-AR',{day:'numeric',month:'short'})}`; }
+    else if(dayDiff===0){ cls='vence-hoy'; label=`📅 Hoy`; }
+    else if(dayDiff===1){ cls=''; label=`📅 Mañana`; }
+    else { cls=''; label=`📅 ${fd.toLocaleDateString('es-AR',{day:'numeric',month:'short',year:'numeric'})}`; }
+    fechaHTML=`<div class="orden-fecha ${cls}">${label}</div>`;
+  }
+
+  // checklist preview
+  let checkHTML = '';
+  if(o.checklist && o.tipo==='colocacion'){
+    const cl = o.checklist;
+    checkHTML = `<div class="checklist-preview">
+      ${Object.entries(CHECKLIST_LABELS).map(([k,v])=>`<span class="check-item ${cl[k]||'pend'}">${v}: ${cl[k]==='ok'?'✓ OK':cl[k]==='no'?'✗ No':'—'}</span>`).join('')}
+    </div>`;
+  }
+
   card.innerHTML=`
     <div class="orden-stripe"></div>
     <div class="orden-body">
@@ -606,12 +716,14 @@ function makeCard(o){
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
           ${esc(o.direccion)}
         </div>
+        ${fechaHTML}
         <div class="orden-meta">
           <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${ZONAS[o.zona].dias}</span>
           ${o.vendedor?`<span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${esc(o.vendedor)}</span>`:''}
           <span style="color:${ZONAS[o.zona].color};font-weight:600">${ZONAS[o.zona].label}</span>
         </div>
         ${o.notas?`<div class="orden-notas">📝 ${esc(o.notas)}</div>`:''}
+        ${checkHTML}
       </div>
       <div class="orden-actions-right">
         ${isAdmin&&!o.done?`<button class="btn-terminar" onclick="confirmarTerminar('${o.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Terminado</button>`:''}
@@ -624,45 +736,162 @@ function makeCard(o){
 
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-// ── PRINT ──
+// CALENDAR
+window.setCalView = function(v){
+  calView=v;
+  document.getElementById('btnMonthly').classList.toggle('active',v==='monthly');
+  document.getElementById('btnWeekly').classList.toggle('active',v==='weekly');
+  selectedDay=null;
+  document.getElementById('dayPanel').style.display='none';
+  renderCalendar();
+};
+
+window.calPrev = function(){ if(calView==='monthly'){ calDate.setMonth(calDate.getMonth()-1); } else { calDate.setDate(calDate.getDate()-7); } renderCalendar(); };
+window.calNext = function(){ if(calView==='monthly'){ calDate.setMonth(calDate.getMonth()+1); } else { calDate.setDate(calDate.getDate()+7); } renderCalendar(); };
+window.calToday = function(){ calDate=new Date(); renderCalendar(); };
+
+function getOrdenesForDate(dateStr){ return ordenes.filter(o=>o.fechaEstimada===dateStr && !o.done); }
+
+function renderCalendar(){
+  const months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const days=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const today=new Date(); today.setHours(0,0,0,0);
+  const todayStr=toDateStr(today);
+
+  if(calView==='monthly'){
+    document.getElementById('calTitle').textContent=months[calDate.getMonth()]+' '+calDate.getFullYear();
+    const first=new Date(calDate.getFullYear(),calDate.getMonth(),1);
+    const last=new Date(calDate.getFullYear(),calDate.getMonth()+1,0);
+    let html='<div class="cal-grid">';
+    days.forEach(d=>{ html+=`<div class="cal-day-header">${d}</div>`; });
+    for(let i=0;i<first.getDay();i++) html+=`<div class="cal-day other-month"></div>`;
+    for(let d=1;d<=last.getDate();d++){
+      const dt=new Date(calDate.getFullYear(),calDate.getMonth(),d);
+      const ds=toDateStr(dt);
+      const ords=getOrdenesForDate(ds);
+      const isToday=ds===todayStr;
+      const isSel=ds===selectedDay;
+      html+=`<div class="cal-day${isToday?' today':''}${isSel?' selected':''}" onclick="selectCalDay('${ds}')">
+        <div class="cal-day-num">${d}</div>
+        <div class="cal-dots">${ords.slice(0,4).map(o=>`<div class="cal-dot" style="background:${ZONACOLORS[o.zona]||'#888'}"></div>`).join('')}</div>
+      </div>`;
+    }
+    html+='</div>';
+    document.getElementById('calGrid').innerHTML=html;
+  } else {
+    // weekly
+    const dow=calDate.getDay();
+    const weekStart=new Date(calDate); weekStart.setDate(calDate.getDate()-dow);
+    const weekEnd=new Date(weekStart); weekEnd.setDate(weekStart.getDate()+6);
+    document.getElementById('calTitle').textContent=
+      weekStart.toLocaleDateString('es-AR',{day:'numeric',month:'short'})+' – '+weekEnd.toLocaleDateString('es-AR',{day:'numeric',month:'short',year:'numeric'});
+    let html='<div class="week-grid">';
+    for(let i=0;i<7;i++){
+      const dt=new Date(weekStart); dt.setDate(weekStart.getDate()+i);
+      const ds=toDateStr(dt);
+      const ords=getOrdenesForDate(ds);
+      const isToday=ds===todayStr;
+      html+=`<div class="week-day${isToday?' today':''}">
+        <div class="week-day-header">${days[i]}</div>
+        <div class="week-day-num">${dt.getDate()}</div>
+        ${ords.map(o=>`<div class="week-orden-item" style="border-left-color:${ZONACOLORS[o.zona]||'#888'}" onclick="editOrden('${o.id}')">${esc(o.cliente)}</div>`).join('')}
+        ${ords.length===0?'<div style="font-size:11px;color:#ccc;text-align:center;margin-top:8px;">—</div>':''}
+      </div>`;
+    }
+    html+='</div>';
+    document.getElementById('calGrid').innerHTML=html;
+  }
+  if(selectedDay) renderDayPanel(selectedDay);
+}
+
+function toDateStr(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+
+window.selectCalDay = function(ds){
+  selectedDay=ds;
+  renderCalendar();
+  renderDayPanel(ds);
+};
+
+function renderDayPanel(ds){
+  const panel=document.getElementById('dayPanel');
+  const ords=ordenes.filter(o=>o.fechaEstimada===ds);
+  const dt=new Date(ds+'T00:00:00');
+  const label=dt.toLocaleDateString('es-AR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+  if(ords.length===0){
+    panel.style.display='block';
+    panel.innerHTML=`<div class="day-panel"><div class="day-panel-title">📅 ${label}</div><div class="day-panel-empty">No hay órdenes para este día.</div></div>`;
+    return;
+  }
+  let html=`<div class="day-panel"><div class="day-panel-title">📅 ${label}</div><div class="orden-list">`;
+  ords.forEach(o=>{ html+=makeCard(o).outerHTML; });
+  html+='</div></div>';
+  panel.style.display='block';
+  panel.innerHTML=html;
+  // re-attach event handlers via delegation already works
+}
+
+// CHECKLIST
+window.toggleChecklist = function(){
+  const tipo=document.getElementById('f-tipo').value;
+  document.getElementById('checklistSection').style.display=tipo==='colocacion'?'block':'none';
+};
+
+window.setCheck = function(item, val, btn){
+  checkState[item]=val;
+  const row=btn.closest('.check-row');
+  row.querySelectorAll('.check-opt').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+};
+
+function resetChecklist(){
+  checkState={reboque:null,piso:null,vano:null};
+  document.querySelectorAll('.check-opt').forEach(b=>b.classList.remove('active'));
+}
+
+// PRINT
 window.imprimirOrden = function(id){
-  const o = ordenes.find(x=>x.id===id);
+  const o=ordenes.find(x=>x.id===id);
   if(!o) return;
-  const fecha = o.creado?.toDate ? o.creado.toDate().toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'}) : 'Sin fecha';
-  const estado = o.done ? '✅ Terminado' : '🕐 Pendiente';
-  const urgente = o.urgente ? '⚠️ SÍ — URGENTE' : 'No';
-  const pa = document.getElementById('printArea');
-  pa.style.display = 'block';
-  pa.innerHTML = `
-    <div class="print-header">
-      <div class="print-title">Orden de Trabajo</div>
-      <div class="print-fecha">Fecha de carga: ${fecha} &nbsp;|&nbsp; Estado: ${estado}</div>
-    </div>
+  const fecha=o.creado?.toDate?o.creado.toDate().toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'}):'Sin fecha';
+  const estado=o.done?'✅ Terminado':'🕐 Pendiente';
+  const urgente=o.urgente?'⚠️ SÍ — URGENTE':'No';
+  const fechaEst=o.fechaEstimada?new Date(o.fechaEstimada+'T00:00:00').toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'}):'No asignada';
+  let checklistHTML='';
+  if(o.checklist&&o.tipo==='colocacion'){
+    checklistHTML=`<div class="print-checklist"><div class="print-checklist-title">Verificación previa — Colocación</div>
+      ${Object.entries(CHECKLIST_LABELS).map(([k,v])=>`<div class="print-check-item"><span>${v}</span><span>${o.checklist[k]==='ok'?'✓ OK':o.checklist[k]==='no'?'✗ No':'—'}</span></div>`).join('')}
+    </div>`;
+  }
+  const pa=document.getElementById('printArea');
+  pa.style.display='block';
+  pa.innerHTML=`
+    <div class="print-header"><div class="print-title">Orden de Trabajo</div><div class="print-fecha">Fecha de carga: ${fecha} &nbsp;|&nbsp; Estado: ${estado}</div></div>
     <div class="print-body">
       <div class="print-row"><span class="print-key">Cliente</span><span class="print-val">${esc(o.cliente)}</span></div>
       <div class="print-row"><span class="print-key">Dirección</span><span class="print-val">${esc(o.direccion)}</span></div>
       <div class="print-row"><span class="print-key">Tipo de trabajo</span><span class="print-val">${TIPOS[o.tipo]||o.tipo}</span></div>
       <div class="print-row"><span class="print-key">Zona</span><span class="print-val">${ZONAS[o.zona].label} — ${ZONAS[o.zona].dias}</span></div>
       <div class="print-row"><span class="print-key">Vendedor</span><span class="print-val">${esc(o.vendedor)||'—'}</span></div>
+      <div class="print-row"><span class="print-key">Fecha estimada</span><span class="print-val">${fechaEst}</span></div>
       <div class="print-row"><span class="print-key">Urgente</span><span class="print-val">${urgente}</span></div>
       ${o.notas?`<div class="print-notas-box"><div class="print-notas-title">📝 Notas y observaciones</div><div class="print-notas-text">${esc(o.notas)}</div></div>`:''}
-      <div class="print-firma">
-        <div class="print-firma-box">Firma del técnico</div>
-        <div class="print-firma-box">Firma del cliente</div>
-        <div class="print-firma-box">Fecha de realización</div>
-      </div>
+      ${checklistHTML}
+      <div class="print-firma"><div class="print-firma-box">Firma del técnico</div><div class="print-firma-box">Firma del cliente</div><div class="print-firma-box">Fecha de realización</div></div>
     </div>`;
   setTimeout(()=>{ window.print(); pa.style.display='none'; }, 100);
 };
 
-// ── ACTIONS ──
+// ACTIONS
 window.setZone = function(z){
   activeZone=z;
   document.querySelectorAll('.zone-tab').forEach(t=>t.classList.remove('active'));
   const tabs=document.querySelectorAll('.zone-tab');
-  const idx=['all','1','2','3'].indexOf(z);
+  const idx=['all','1','2','3','cal'].indexOf(z);
   if(tabs[idx]) tabs[idx].classList.add('active');
-  render();
+  document.getElementById('listView').style.display=z==='cal'?'none':'block';
+  document.getElementById('calendarView').style.display=z==='cal'?'block':'none';
+  if(z==='cal'){ calDate=new Date(); renderCalendar(); }
+  else render();
 };
 
 window.setTipo = function(t,btn){
@@ -687,27 +916,16 @@ window.confirmarTerminar = function(id){
 };
 
 window.cerrarConfirm = function(){ document.getElementById('confirmOverlay').classList.remove('open'); };
+window.archivarOrden = async function(){ const id=document.getElementById('confirmOverlay').dataset.id; await updateDoc(doc(db,'ordenes',id),{done:true}); cerrarConfirm(); };
+window.reabrirOrden = async function(id){ await updateDoc(doc(db,'ordenes',id),{done:false}); };
+window.deleteOrden = async function(id){ if(!confirm('¿Eliminar esta orden?')) return; await deleteDoc(doc(db,'ordenes',id)); };
 
-window.archivarOrden = async function(){
-  const id=document.getElementById('confirmOverlay').dataset.id;
-  await updateDoc(doc(db,'ordenes',id),{done:true});
-  cerrarConfirm();
-};
-
-window.reabrirOrden = async function(id){
-  await updateDoc(doc(db,'ordenes',id),{done:false});
-};
-
-window.deleteOrden = async function(id){
-  if(!confirm('¿Eliminar esta orden?')) return;
-  await deleteDoc(doc(db,'ordenes',id));
-};
-
-// ── MODAL ──
+// MODAL
 window.openModal = function(id){
   editId=id||null;
   document.getElementById('modalTitle').textContent=id?'Editar orden':'Nueva orden de trabajo';
   const isAdmin=currentRole==='admin';
+  resetChecklist();
   if(id){
     const o=ordenes.find(x=>x.id===id);
     document.getElementById('f-cliente').value=o.cliente;
@@ -717,6 +935,15 @@ window.openModal = function(id){
     document.getElementById('f-vendedor').value=o.vendedor||'';
     document.getElementById('f-urgente').checked=!!o.urgente;
     document.getElementById('f-notas').value=o.notas||'';
+    document.getElementById('f-fecha').value=o.fechaEstimada||'';
+    // restore checklist
+    if(o.checklist){
+      checkState={...o.checklist};
+      Object.entries(o.checklist).forEach(([k,v])=>{
+        const btn=document.querySelector(`.check-opt.${v}[data-item="${k}"]`);
+        if(btn) btn.classList.add('active');
+      });
+    }
   } else {
     document.getElementById('f-cliente').value='';
     document.getElementById('f-dir').value='';
@@ -725,8 +952,10 @@ window.openModal = function(id){
     document.getElementById('f-vendedor').value=isAdmin?'':(currentNombre||'');
     document.getElementById('f-urgente').checked=false;
     document.getElementById('f-notas').value='';
+    document.getElementById('f-fecha').value='';
   }
   document.getElementById('f-vendedor').readOnly=!isAdmin;
+  toggleChecklist();
   document.getElementById('modalOverlay').classList.add('open');
   setTimeout(()=>document.getElementById('f-cliente').focus(),100);
 };
@@ -740,13 +969,15 @@ window.guardarOrden = async function(){
   if(!dir){ document.getElementById('f-dir').focus(); return; }
   const btn=document.getElementById('btnGuardar');
   btn.textContent='Guardando...'; btn.disabled=true;
+  const tipo=document.getElementById('f-tipo').value;
   const data={
-    cliente,direccion:dir,
-    tipo:document.getElementById('f-tipo').value,
+    cliente, direccion:dir, tipo,
     zona:document.getElementById('f-zona').value,
     vendedor:document.getElementById('f-vendedor').value.trim(),
     urgente:document.getElementById('f-urgente').checked,
     notas:document.getElementById('f-notas').value.trim(),
+    fechaEstimada:document.getElementById('f-fecha').value||null,
+    checklist: tipo==='colocacion' ? {...checkState} : null,
   };
   try{
     if(editId){ await updateDoc(doc(db,'ordenes',editId),data); }
@@ -762,10 +993,7 @@ document.getElementById('confirmOverlay').addEventListener('click',function(e){ 
 document.getElementById('modalOverlay').addEventListener('click',function(e){ if(e.target===this) closeModal(); });
 document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ closeModal(); cerrarConfirm(); } });
 
-// ── INIT ──
 selectRole('vendedor');
-const savedCfg = getSavedConfig();
-// If no config, setup screen will show after login
 </script>
 </body>
 </html>
