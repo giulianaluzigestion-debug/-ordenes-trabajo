@@ -381,7 +381,7 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
         <button class="filter-btn" onclick="setTipo('medicion',this)">Medición</button>
         <button class="filter-btn" onclick="setTipo('otro',this)">Otro</button>
         <div class="filter-sep"></div>
-        <button class="show-done-btn" id="showDoneBtn" onclick="toggleDone()">Mostrar terminados</button>
+        <button class="show-done-btn" id="showDoneBtn" onclick="toggleDone()">Ver terminados</button>
       </div>
       <div class="orden-list" id="ordenList"></div>
     </div>
@@ -653,14 +653,21 @@ function render(){
     document.getElementById('badge-all').textContent=ordenes.filter(o=>!o.done).length;
   }
   list.innerHTML='';
-  if(pending.length===0&&(!showDone||done.length===0)){
-    list.innerHTML=`<div class="empty"><div class="empty-icon">📋</div><p>${isAdmin?'No hay órdenes pendientes':'No tenés órdenes cargadas todavía'}</p><small>Hacé clic en "Nueva orden" para agregar una</small></div>`;
-    return;
-  }
-  pending.forEach(o=>list.appendChild(makeCard(o)));
-  if(showDone&&done.length>0){
-    const dh=document.createElement('div'); dh.className='done-header'; dh.textContent=`Terminados (${done.length})`; list.appendChild(dh);
+
+  if(showDone){
+    // modo terminados: solo mostrar terminados
+    if(done.length===0){
+      list.innerHTML=`<div class="empty"><div class="empty-icon">✅</div><p>No hay órdenes terminadas todavía</p></div>`;
+      return;
+    }
     done.forEach(o=>list.appendChild(makeCard(o)));
+  } else {
+    // modo normal: solo pendientes
+    if(pending.length===0){
+      list.innerHTML=`<div class="empty"><div class="empty-icon">📋</div><p>${isAdmin?'No hay órdenes pendientes':'No tenés órdenes cargadas todavía'}</p><small>Hacé clic en "Nueva orden" para agregar una</small></div>`;
+      return;
+    }
+    pending.forEach(o=>list.appendChild(makeCard(o)));
   }
 }
 
@@ -903,7 +910,9 @@ window.setTipo = function(t,btn){
 
 window.toggleDone = function(){
   showDone=!showDone;
-  document.getElementById('showDoneBtn').classList.toggle('active',showDone);
+  const btn = document.getElementById('showDoneBtn');
+  btn.classList.toggle('active',showDone);
+  btn.textContent = showDone ? '← Ver pendientes' : 'Ver terminados';
   render();
 };
 
