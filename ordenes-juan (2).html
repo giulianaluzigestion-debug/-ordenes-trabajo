@@ -232,22 +232,38 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
 @media print {
   body * { visibility: hidden; }
   #printArea, #printArea * { visibility: visible; }
-  #printArea { position: fixed; inset: 0; padding: 32px; background: white; }
-  .print-header { margin-bottom: 24px; border-bottom: 2px solid #333; padding-bottom: 16px; }
-  .print-title { font-family: 'DM Serif Display', serif; font-size: 26px; }
-  .print-fecha { font-size: 13px; color: #666; margin-top: 4px; }
-  .print-body { font-size: 15px; line-height: 2; }
-  .print-row { display: flex; gap: 12px; border-bottom: 1px solid #eee; padding: 8px 0; }
-  .print-key { font-weight: 600; min-width: 180px; color: #333; }
-  .print-val { color: #111; }
-  .print-notas-box { margin-top: 20px; border: 1.5px solid #333; border-radius: 8px; padding: 16px; }
-  .print-notas-title { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
-  .print-notas-text { font-size: 15px; line-height: 1.7; }
-  .print-checklist { margin-top: 20px; border: 1.5px solid #333; border-radius: 8px; padding: 16px; }
-  .print-checklist-title { font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-  .print-check-item { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid #eee; font-size: 14px; }
-  .print-firma { margin-top: 48px; display: flex; gap: 48px; }
-  .print-firma-box { flex: 1; border-top: 1.5px solid #333; padding-top: 8px; font-size: 13px; color: #666; text-align: center; }
+  #printArea { position: fixed; inset: 0; padding: 24px 28px; background: white; }
+
+  /* Encabezado compacto en una franja */
+  .print-top { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 12px; }
+  .print-title { font-family: 'DM Serif Display', serif; font-size: 20px; }
+  .print-estado { font-size: 11px; color: #666; }
+
+  .print-datos-compact { display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: 12.5px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #ddd; }
+  .print-datos-compact div { white-space: nowrap; }
+  .print-datos-compact b { color: #000; }
+
+  /* Checklist compacto en una linea */
+  .print-checklist-compact { display: flex; gap: 14px; font-size: 11.5px; margin-bottom: 10px; padding: 6px 10px; border: 1.2px solid #333; border-radius: 6px; flex-wrap: wrap; }
+  .print-checklist-compact span { white-space: nowrap; }
+
+  /* Notas ya escritas, breve */
+  .print-notas-inline { font-size: 12.5px; margin-bottom: 8px; padding: 6px 10px; border-left: 3px solid #333; background: #fafafa; }
+  .print-notas-inline b { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: .5px; color: #555; margin-bottom: 2px; }
+
+  /* Área de renglones para escribir a mano */
+  .print-write-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #555; margin-bottom: 4px; }
+  .print-lines { margin-bottom: 14px; }
+  .print-line { border-bottom: 1px solid #999; height: 26px; }
+
+  /* Firma */
+  .print-firma { margin-top: 8px; display: flex; gap: 40px; }
+  .print-firma-box { flex: 1; border-top: 1.5px solid #333; padding-top: 6px; font-size: 12px; color: #666; text-align: center; }
+
+  /* Nombre de empleado al final */
+  .print-empleado-box { margin-top: 24px; border: 1.5px solid #333; border-radius: 8px; padding: 14px 16px; }
+  .print-empleado-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .print-empleado-dots { border-bottom: 1px dotted #333; height: 22px; }
 }
 
 @media(max-width:600px){
@@ -862,32 +878,60 @@ function resetChecklist(){
 window.imprimirOrden = function(id){
   const o=ordenes.find(x=>x.id===id);
   if(!o) return;
-  const fecha=o.creado?.toDate?o.creado.toDate().toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'}):'Sin fecha';
-  const estado=o.done?'✅ Terminado':'🕐 Pendiente';
-  const urgente=o.urgente?'⚠️ SÍ — URGENTE':'No';
-  const fechaEst=o.fechaEstimada?new Date(o.fechaEstimada+'T00:00:00').toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'}):'No asignada';
+  const estado=o.done?'Terminado':'Pendiente';
+  const fechaEst=o.fechaEstimada?new Date(o.fechaEstimada+'T00:00:00').toLocaleDateString('es-AR',{day:'numeric',month:'short',year:'numeric'}):'No asignada';
+
   let checklistHTML='';
   if(o.checklist&&o.tipo==='colocacion'){
-    checklistHTML=`<div class="print-checklist"><div class="print-checklist-title">Verificación previa — Colocación</div>
-      ${Object.entries(CHECKLIST_LABELS).map(([k,v])=>`<div class="print-check-item"><span>${v}</span><span>${o.checklist[k]==='ok'?'✓ OK':o.checklist[k]==='no'?'✗ No':'—'}</span></div>`).join('')}
+    checklistHTML=`<div class="print-checklist-compact">
+      ${Object.entries(CHECKLIST_LABELS).map(([k,v])=>`<span><b>${v}:</b> ${o.checklist[k]==='ok'?'✓ OK':o.checklist[k]==='no'?'✗ No':'—'}</span>`).join('')}
     </div>`;
   }
+
+  let notasHTML='';
+  if(o.notas){
+    notasHTML=`<div class="print-notas-inline"><b>Notas cargadas</b>${esc(o.notas)}</div>`;
+  }
+
+  // generar renglones en blanco para escribir (cantidad suficiente para llenar la hoja)
+  const numLineas = 13;
+  let lineasHTML = '<div class="print-lines">';
+  for(let i=0;i<numLineas;i++){ lineasHTML += '<div class="print-line"></div>'; }
+  lineasHTML += '</div>';
+
   const pa=document.getElementById('printArea');
   pa.style.display='block';
   pa.innerHTML=`
-    <div class="print-header"><div class="print-title">Orden de Trabajo</div><div class="print-fecha">Fecha de carga: ${fecha} &nbsp;|&nbsp; Estado: ${estado}</div></div>
-    <div class="print-body">
-      <div class="print-row"><span class="print-key">Cliente</span><span class="print-val">${esc(o.cliente)}</span></div>
-      <div class="print-row"><span class="print-key">Dirección</span><span class="print-val">${esc(o.direccion)}</span></div>
-      <div class="print-row"><span class="print-key">Teléfono de contacto</span><span class="print-val">${esc(o.telefono)||'—'}</span></div>
-      <div class="print-row"><span class="print-key">Tipo de trabajo</span><span class="print-val">${TIPOS[o.tipo]||o.tipo}</span></div>
-      <div class="print-row"><span class="print-key">Zona</span><span class="print-val">${ZONAS[o.zona].label} — ${ZONAS[o.zona].dias}</span></div>
-      <div class="print-row"><span class="print-key">Vendedor</span><span class="print-val">${esc(o.vendedor)||'—'}</span></div>
-      <div class="print-row"><span class="print-key">Fecha estimada</span><span class="print-val">${fechaEst}</span></div>
-      <div class="print-row"><span class="print-key">Urgente</span><span class="print-val">${urgente}</span></div>
-      ${o.notas?`<div class="print-notas-box"><div class="print-notas-title">📝 Notas y observaciones</div><div class="print-notas-text">${esc(o.notas)}</div></div>`:''}
-      ${checklistHTML}
-      <div class="print-firma"><div class="print-firma-box">Firma del técnico</div><div class="print-firma-box">Firma del cliente</div><div class="print-firma-box">Fecha de realización</div></div>
+    <div class="print-top">
+      <div class="print-title">Orden de Trabajo</div>
+      <div class="print-estado">Estado: ${estado} &nbsp;|&nbsp; ${o.urgente?'⚠ URGENTE':''}</div>
+    </div>
+
+    <div class="print-datos-compact">
+      <div><b>Cliente:</b> ${esc(o.cliente)}</div>
+      <div><b>Dirección:</b> ${esc(o.direccion)}</div>
+      <div><b>Teléfono:</b> ${esc(o.telefono)||'—'}</div>
+      <div><b>Vendedor:</b> ${esc(o.vendedor)||'—'}</div>
+      <div><b>Tipo:</b> ${TIPOS[o.tipo]||o.tipo}</div>
+      <div><b>Zona:</b> ${ZONAS[o.zona].label}</div>
+      <div><b>Fecha estimada:</b> ${fechaEst}</div>
+    </div>
+
+    ${checklistHTML}
+    ${notasHTML}
+
+    <div class="print-write-title">Espacio para anotaciones del área técnica</div>
+    ${lineasHTML}
+
+    <div class="print-firma">
+      <div class="print-firma-box">Firma del técnico</div>
+      <div class="print-firma-box">Firma del cliente</div>
+      <div class="print-firma-box">Fecha de realización</div>
+    </div>
+
+    <div class="print-empleado-box">
+      <div class="print-empleado-label">Nombre de empleado:</div>
+      <div class="print-empleado-dots"></div>
     </div>`;
   setTimeout(()=>{ window.print(); pa.style.display='none'; }, 100);
 };
