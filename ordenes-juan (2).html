@@ -284,8 +284,6 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
         <input class="pin-digit" type="password" maxlength="1" id="p1" inputmode="numeric" />
         <input class="pin-digit" type="password" maxlength="1" id="p2" inputmode="numeric" />
         <input class="pin-digit" type="password" maxlength="1" id="p3" inputmode="numeric" />
-        <input class="pin-digit" type="password" maxlength="1" id="p4" inputmode="numeric" />
-        <input class="pin-digit" type="password" maxlength="1" id="p5" inputmode="numeric" />
       </div>
     </div>
     <div class="login-error" id="loginError"></div>
@@ -442,7 +440,7 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
     <div class="checklist-section" id="checklistSection" style="display:none;">
       <div class="checklist-title">✔ Verificación previa — Colocación</div>
       <div class="check-row">
-        <span class="check-label">Reboque terminado</span>
+        <span class="check-label">Revoque terminado</span>
         <div class="check-options">
           <button class="check-opt ok" data-item="reboque" data-val="ok" onclick="setCheck('reboque','ok',this)">✓ OK</button>
           <button class="check-opt no" data-item="reboque" data-val="no" onclick="setCheck('reboque','no',this)">✗ No</button>
@@ -490,7 +488,7 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getFirestore, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, query, orderBy } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const CFG_KEY = 'firebase-cfg-juan-v1';
-const ADMIN_PIN = '025802';
+const ADMIN_PIN = '1952';
 
 let db = null, ordenes = [], activeZone = 'all', activeTipo = 'all', showDone = false, editId = null;
 let currentRole = null, currentNombre = null;
@@ -504,7 +502,7 @@ const ZONAS = {
 };
 const ZONACOLORS = {'1':'#e8681a','2':'#1a8fd4','3':'#2aaa6e'};
 const TIPOS = { colocacion:'Colocación', arreglo:'Arreglo', medicion:'Medición', otro:'Otro' };
-const CHECKLIST_LABELS = { reboque:'Reboque terminado', piso:'Piso / carpeta colocada', vano:'Vano correcto' };
+const CHECKLIST_LABELS = { reboque:'Revoque terminado', piso:'Piso / carpeta colocada', vano:'Vano correcto' };
 
 // CONFIG
 function getSavedConfig(){ try{ return JSON.parse(localStorage.getItem(CFG_KEY)); }catch{ return null; } }
@@ -520,9 +518,9 @@ window.selectRole = function(role){
   document.getElementById('loginError').textContent = '';
 };
 
-for(let i=0;i<6;i++){
+for(let i=0;i<4;i++){
   const el = document.getElementById('p'+i);
-  el.addEventListener('input', ()=>{ if(el.value && i<5) document.getElementById('p'+(i+1)).focus(); });
+  el.addEventListener('input', ()=>{ if(el.value && i<3) document.getElementById('p'+(i+1)).focus(); });
   el.addEventListener('keydown', e=>{ if(e.key==='Backspace'&&!el.value&&i>0) document.getElementById('p'+(i-1)).focus(); if(e.key==='Enter') doLogin(); });
 }
 
@@ -530,7 +528,7 @@ window.doLogin = async function(){
   const err = document.getElementById('loginError');
   err.textContent = '';
   if(currentRole === 'admin'){
-    const pin = [0,1,2,3,4,5].map(i=>document.getElementById('p'+i).value).join('');
+    const pin = [0,1,2,3].map(i=>document.getElementById('p'+i).value).join('');
     if(pin !== ADMIN_PIN){ err.textContent = 'PIN incorrecto.'; return; }
     currentNombre = 'Juan';
     await arrancarApp('admin');
@@ -550,7 +548,7 @@ window.cerrarSesion = function(){
   document.getElementById('loginScreen').classList.add('visible');
   selectRole('vendedor');
   document.getElementById('loginNombre').value = '';
-  [0,1,2,3,4,5].forEach(i=>{ document.getElementById('p'+i).value=''; });
+  [0,1,2,3].forEach(i=>{ document.getElementById('p'+i).value=''; });
 };
 
 // START
