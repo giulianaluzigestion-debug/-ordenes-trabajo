@@ -239,7 +239,7 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
   .print-title { font-family: 'DM Serif Display', serif; font-size: 20px; }
   .print-estado { font-size: 11px; color: #666; }
 
-  .print-datos-compact { display: flex; flex-wrap: wrap; gap: 4px 24px; font-size: 12.5px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #ddd; }
+  .print-datos-compact { display: flex; flex-wrap: wrap; gap: 6px 28px; font-size: 15px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #ddd; }
   .print-datos-compact div { white-space: nowrap; }
   .print-datos-compact b { color: #000; }
 
@@ -476,6 +476,13 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
           <button class="check-opt no" data-item="vano" data-val="no" onclick="setCheck('vano','no',this)">✗ No</button>
         </div>
       </div>
+      <div class="check-row">
+        <span class="check-label">¿Es en planta alta?</span>
+        <div class="check-options">
+          <button class="check-opt ok" data-item="plantaAlta" data-val="ok" onclick="setCheck('plantaAlta','ok',this)">Sí</button>
+          <button class="check-opt no" data-item="plantaAlta" data-val="no" onclick="setCheck('plantaAlta','no',this)">No</button>
+        </div>
+      </div>
     </div>
     <div class="form-row"><div class="form-group full"><label>Notas / Observaciones</label><textarea id="f-notas" placeholder="Medidas, materiales, indicaciones especiales..."></textarea></div></div>
     <div class="modal-btns">
@@ -509,7 +516,7 @@ const ADMIN_PIN = '1952';
 let db = null, ordenes = [], activeZone = 'all', activeTipo = 'all', showDone = false, editId = null;
 let currentRole = null, currentNombre = null;
 let calView = 'monthly', calDate = new Date(), selectedDay = null;
-let checkState = { reboque: null, piso: null, vano: null };
+let checkState = { reboque: null, piso: null, vano: null, plantaAlta: null };
 
 const ZONAS = {
   '1':{ label:'Zona 1 · Oeste', dias:'Lunes, Miércoles y Viernes', color:'var(--z1)', bg:'var(--z1l)', places:'Oeste · Funes · Roldán · Pérez · Soldani' },
@@ -518,7 +525,11 @@ const ZONAS = {
 };
 const ZONACOLORS = {'1':'#e8681a','2':'#1a8fd4','3':'#2aaa6e'};
 const TIPOS = { colocacion:'Colocación', arreglo:'Arreglo', medicion:'Medición', otro:'Otro' };
-const CHECKLIST_LABELS = { reboque:'Revoque terminado', piso:'Piso / carpeta colocada', vano:'Vano correcto' };
+const CHECKLIST_LABELS = { reboque:'Revoque terminado', piso:'Piso / carpeta colocada', vano:'Vano correcto', plantaAlta:'¿Es en planta alta?' };
+function formatCheckVal(item, val){
+  if(item==='plantaAlta'){ return val==='ok'?'Sí':val==='no'?'No':'—'; }
+  return val==='ok'?'✓ OK':val==='no'?'✗ No':'—';
+}
 
 // CONFIG
 function getSavedConfig(){ try{ return JSON.parse(localStorage.getItem(CFG_KEY)); }catch{ return null; } }
@@ -712,7 +723,7 @@ function makeCard(o){
   if(o.checklist && o.tipo==='colocacion'){
     const cl = o.checklist;
     checkHTML = `<div class="checklist-preview">
-      ${Object.entries(CHECKLIST_LABELS).map(([k,v])=>`<span class="check-item ${cl[k]||'pend'}">${v}: ${cl[k]==='ok'?'✓ OK':cl[k]==='no'?'✗ No':'—'}</span>`).join('')}
+      ${Object.entries(CHECKLIST_LABELS).map(([k,v])=>`<span class="check-item ${cl[k]||'pend'}">${v}: ${formatCheckVal(k,cl[k])}</span>`).join('')}
     </div>`;
   }
 
@@ -870,7 +881,7 @@ window.setCheck = function(item, val, btn){
 };
 
 function resetChecklist(){
-  checkState={reboque:null,piso:null,vano:null};
+  checkState={reboque:null,piso:null,vano:null,plantaAlta:null};
   document.querySelectorAll('.check-opt').forEach(b=>b.classList.remove('active'));
 }
 
@@ -884,7 +895,7 @@ window.imprimirOrden = function(id){
   let checklistHTML='';
   if(o.checklist&&o.tipo==='colocacion'){
     checklistHTML=`<div class="print-checklist-compact">
-      ${Object.entries(CHECKLIST_LABELS).map(([k,v])=>`<span><b>${v}:</b> ${o.checklist[k]==='ok'?'✓ OK':o.checklist[k]==='no'?'✗ No':'—'}</span>`).join('')}
+      ${Object.entries(CHECKLIST_LABELS).map(([k,v])=>`<span><b>${v}:</b> ${formatCheckVal(k,o.checklist[k])}</span>`).join('')}
     </div>`;
   }
 
@@ -894,7 +905,7 @@ window.imprimirOrden = function(id){
   }
 
   // generar renglones en blanco para escribir (cantidad suficiente para llenar la hoja)
-  const numLineas = 13;
+  const numLineas = 12;
   let lineasHTML = '<div class="print-lines">';
   for(let i=0;i<numLineas;i++){ lineasHTML += '<div class="print-line"></div>'; }
   lineasHTML += '</div>';
