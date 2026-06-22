@@ -239,7 +239,7 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
   .print-title { font-family: 'DM Serif Display', serif; font-size: 20px; }
   .print-estado { font-size: 11px; color: #666; }
 
-  .print-datos-compact { display: flex; flex-wrap: wrap; gap: 6px 28px; font-size: 15px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #ddd; }
+  .print-datos-compact { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 30px; font-size: 18px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1.5px solid #ddd; line-height: 1.4; }
   .print-datos-compact div { white-space: nowrap; }
   .print-datos-compact b { color: #000; }
 
@@ -905,7 +905,7 @@ window.imprimirOrden = function(id){
   }
 
   // generar renglones en blanco para escribir (cantidad suficiente para llenar la hoja)
-  const numLineas = 12;
+  const numLineas = 11;
   let lineasHTML = '<div class="print-lines">';
   for(let i=0;i<numLineas;i++){ lineasHTML += '<div class="print-line"></div>'; }
   lineasHTML += '</div>';
