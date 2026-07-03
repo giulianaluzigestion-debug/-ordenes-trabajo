@@ -765,7 +765,7 @@ function makeCard(o){
       <div class="orden-actions-right">
         ${isAdmin&&!o.done?`<button class="btn-terminar" onclick="confirmarTerminar('${o.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Terminado</button>`:''}
         ${isAdmin&&o.done?`<button class="btn-reabrir" onclick="reabrirOrden('${o.id}')">↩ Reabrir</button>`:''}
-        ${isAdmin?`<button class="btn-print" onclick="imprimirOrden('${o.id}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Imprimir</button>`:''}
+        <button class="btn-print" onclick="imprimirOrden('${o.id}')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>Imprimir</button>
       </div>
     </div>`;
   return card;
