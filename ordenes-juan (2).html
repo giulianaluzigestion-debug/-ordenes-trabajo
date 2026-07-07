@@ -915,7 +915,10 @@ window.imprimirOrden = function(id){
   pa.innerHTML=`
     <div class="print-top">
       <div class="print-title">Orden de Trabajo</div>
-      <div class="print-estado">Estado: ${estado} &nbsp;|&nbsp; ${o.urgente?'⚠ URGENTE':''}</div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+        <div style="font-size:14px;font-weight:600;">Fecha: ______ / ______ / __________</div>
+        <div class="print-estado">Estado: ${estado} &nbsp;|&nbsp; ${o.urgente?'⚠ URGENTE':''}</div>
+      </div>
     </div>
 
     <div class="print-datos-compact">
@@ -941,7 +944,7 @@ window.imprimirOrden = function(id){
     </div>
 
     <div class="print-empleado-box">
-      <div class="print-empleado-label">Nombre de empleado:</div>
+      <div class="print-empleado-label">Trabajo realizado por:</div>
       <div class="print-empleado-dots"></div>
     </div>`;
   setTimeout(()=>{ window.print(); pa.style.display='none'; }, 100);
