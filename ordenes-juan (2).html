@@ -947,7 +947,49 @@ window.imprimirOrden = function(id){
       <div class="print-empleado-label">Trabajo realizado por:</div>
       <div class="print-empleado-dots"></div>
     </div>`;
-  setTimeout(()=>{ window.print(); pa.style.display='none'; }, 100);
+  // Abrir ventana nueva para imprimir — fuerza 1 sola copia
+  const printWin = window.open('', '_blank', 'width=800,height=1100');
+  printWin.document.write(`<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Orden de Trabajo</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; padding: 24px 28px; background: white; }
+  .print-top { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #333; padding-bottom: 10px; margin-bottom: 12px; }
+  .print-title { font-family: 'DM Serif Display', serif; font-size: 20px; }
+  .print-estado { font-size: 11px; color: #666; }
+  .print-datos-compact { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 30px; font-size: 18px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1.5px solid #ddd; line-height: 1.4; }
+  .print-datos-compact b { color: #000; }
+  .print-checklist-compact { display: flex; gap: 14px; font-size: 11.5px; margin-bottom: 10px; padding: 6px 10px; border: 1.2px solid #333; border-radius: 6px; flex-wrap: wrap; }
+  .print-notas-inline { font-size: 12.5px; margin-bottom: 8px; padding: 6px 10px; border-left: 3px solid #333; background: #fafafa; }
+  .print-notas-inline b { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: .5px; color: #555; margin-bottom: 2px; }
+  .print-write-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #555; margin-bottom: 4px; }
+  .print-lines { margin-bottom: 14px; }
+  .print-line { border-bottom: 1px solid #999; height: 26px; }
+  .print-firma { margin-top: 8px; display: flex; gap: 40px; }
+  .print-firma-box { flex: 1; border-top: 1.5px solid #333; padding-top: 6px; font-size: 12px; color: #666; text-align: center; }
+  .print-empleado-box { margin-top: 24px; border: 1.5px solid #333; border-radius: 8px; padding: 14px 16px; }
+  .print-empleado-label { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+  .print-empleado-dots { border-bottom: 1px dotted #333; height: 22px; }
+  @media print { @page { margin: 0; size: A4; } body { padding: 18px 24px; } }
+</style>
+</head>
+<body>
+${pa.innerHTML}
+<script>
+  window.onload = function() {
+    window.focus();
+    window.print();
+    setTimeout(function(){ window.close(); }, 500);
+  };
+<\/script>
+</body>
+</html>`);
+  printWin.document.close();
+  pa.style.display='none';
 };
 
 // ACTIONS
