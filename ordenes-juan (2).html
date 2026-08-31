@@ -397,6 +397,17 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
         <div class="filter-sep"></div>
         <button class="show-done-btn" id="showDoneBtn" onclick="toggleDone()">Ver terminados</button>
       </div>
+      <!-- Barra búsqueda + orden alfabético (solo visible en terminados) -->
+      <div id="doneToolbar" style="display:none;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap;">
+        <div style="position:relative;flex:1;min-width:200px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--ink2)" stroke-width="2" stroke-linecap="round" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);pointer-events:none;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" id="searchInput" placeholder="Buscar por nombre de cliente..." oninput="renderSearch()" style="width:100%;padding:9px 14px 9px 34px;border:1.5px solid var(--border);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;background:var(--paper);color:var(--ink);outline:none;" />
+        </div>
+        <button class="filter-btn" id="sortBtn" onclick="toggleSort()" style="white-space:nowrap;display:flex;align-items:center;gap:5px;">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          A → Z
+        </button>
+      </div>
       <div class="orden-list" id="ordenList"></div>
     </div>
 
@@ -513,7 +524,7 @@ import { getFirestore, collection, onSnapshot, addDoc, updateDoc, deleteDoc, doc
 const CFG_KEY = 'firebase-cfg-juan-v1';
 const ADMIN_PIN = '1952';
 
-let db = null, ordenes = [], activeZone = 'all', activeTipo = 'all', showDone = false, editId = null;
+let db = null, ordenes = [], activeZone = 'all', activeTipo = 'all', showDone = false, editId = null, sortAZ = false;
 let currentRole = null, currentNombre = null;
 let calView = 'monthly', calDate = new Date(), selectedDay = null;
 let checkState = { reboque: null, piso: null, vano: null, plantaAlta: null };
@@ -681,12 +692,16 @@ function render(){
   list.innerHTML='';
 
   if(showDone){
-    // modo terminados: solo mostrar terminados
-    if(done.length===0){
-      list.innerHTML=`<div class="empty"><div class="empty-icon">✅</div><p>No hay órdenes terminadas todavía</p></div>`;
+    // modo terminados: búsqueda + orden alfabético
+    const searchInput = document.getElementById('searchInput');
+    const searchVal = searchInput ? searchInput.value.toLowerCase().trim() : '';
+    let doneFiltered = done.filter(o => !searchVal || (o.cliente||'').toLowerCase().includes(searchVal));
+    if(sortAZ) doneFiltered.sort((a,b)=>a.cliente.localeCompare(b.cliente,'es'));
+    if(doneFiltered.length===0){
+      list.innerHTML=`<div class="empty"><div class="empty-icon">✅</div><p>${searchVal?'No se encontraron resultados':'No hay órdenes terminadas todavía'}</p></div>`;
       return;
     }
-    done.forEach(o=>list.appendChild(makeCard(o)));
+    doneFiltered.forEach(o=>list.appendChild(makeCard(o)));
   } else {
     // modo normal: solo pendientes
     if(pending.length===0){
@@ -1017,6 +1032,23 @@ window.toggleDone = function(){
   const btn = document.getElementById('showDoneBtn');
   btn.classList.toggle('active',showDone);
   btn.textContent = showDone ? '← Ver pendientes' : 'Ver terminados';
+  const toolbar = document.getElementById('doneToolbar');
+  toolbar.style.display = showDone ? 'flex' : 'none';
+  if(!showDone){
+    document.getElementById('searchInput').value='';
+    sortAZ=false;
+    document.getElementById('sortBtn').classList.remove('active');
+  }
+  render();
+};
+
+window.renderSearch = function(){
+  render();
+};
+
+window.toggleSort = function(){
+  sortAZ=!sortAZ;
+  document.getElementById('sortBtn').classList.toggle('active',sortAZ);
   render();
 };
 
