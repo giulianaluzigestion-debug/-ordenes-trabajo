@@ -461,7 +461,8 @@ textarea{resize:vertical;min-height:80px;font-size:16px !important;}
       </div>
     </div>
     <div class="form-row" id="vendedorRow"><div class="form-group"><label>Vendedor</label><input type="text" id="f-vendedor" placeholder="Nombre del vendedor"/></div>
-    <div class="form-group" id="fechaRow" style="display:none;"><label>Fecha estimada</label><input type="date" id="f-fecha"/></div></div>
+    <div class="form-group"><label>Fecha de la orden</label><input type="date" id="f-fechaorden"/></div>
+    <div class="form-group" id="fechaRow" style="display:none;"><label>Fecha estimada de trabajo</label><input type="date" id="f-fecha"/></div></div>
     <div class="urgente-row"><input type="checkbox" id="f-urgente"/><label for="f-urgente">⚠️ Marcar como urgente</label></div>
     <!-- Checklist colocación -->
     <div class="checklist-section" id="checklistSection" style="display:none;">
@@ -773,6 +774,8 @@ function makeCard(o){
           <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${ZONAS[o.zona].dias}</span>
           ${o.vendedor?`<span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${esc(o.vendedor)}</span>`:''}
           <span style="color:${ZONAS[o.zona].color};font-weight:600">${ZONAS[o.zona].label}</span>
+          ${o.fechaOrden?`<span>📄 Orden: ${new Date(o.fechaOrden+'T00:00:00').toLocaleDateString('es-AR',{day:'numeric',month:'short',year:'numeric'})}</span>`:''}
+
         </div>
         ${o.notas?`<div class="orden-notas">📝 ${esc(o.notas)}</div>`:''}
         ${checkHTML}
@@ -941,6 +944,7 @@ window.imprimirOrden = function(id){
       <div><b>Dirección:</b> ${esc(o.direccion)}</div>
       <div><b>Teléfono:</b> ${esc(o.telefono)||'—'}</div>
       <div><b>Vendedor:</b> ${esc(o.vendedor)||'—'}</div>
+      <div><b>Fecha de la orden:</b> ${o.fechaOrden?new Date(o.fechaOrden+'T00:00:00').toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'}):'—'}</div>
       <div><b>Tipo:</b> ${TIPOS[o.tipo]||o.tipo}</div>
       <div><b>Zona:</b> ${ZONAS[o.zona].label}</div>
       <div><b>Fecha estimada:</b> ${fechaEst}</div>
@@ -1082,6 +1086,7 @@ window.openModal = function(id){
     document.getElementById('f-urgente').checked=!!o.urgente;
     document.getElementById('f-notas').value=o.notas||'';
     document.getElementById('f-fecha').value=o.fechaEstimada||'';
+    document.getElementById('f-fechaorden').value=o.fechaOrden||'';
     // restore checklist
     if(o.checklist){
       checkState={...o.checklist};
@@ -1100,6 +1105,9 @@ window.openModal = function(id){
     document.getElementById('f-urgente').checked=false;
     document.getElementById('f-notas').value='';
     document.getElementById('f-fecha').value='';
+    const hoy = new Date();
+    const hoyStr = hoy.getFullYear()+'-'+String(hoy.getMonth()+1).padStart(2,'0')+'-'+String(hoy.getDate()).padStart(2,'0');
+    document.getElementById('f-fechaorden').value=hoyStr;
   }
   document.getElementById('f-vendedor').readOnly=!isAdmin;
   toggleChecklist();
@@ -1126,6 +1134,7 @@ window.guardarOrden = async function(){
     urgente:document.getElementById('f-urgente').checked,
     notas:document.getElementById('f-notas').value.trim(),
     fechaEstimada:document.getElementById('f-fecha').value||null,
+    fechaOrden:document.getElementById('f-fechaorden').value||null,
     checklist: tipo==='colocacion' ? {...checkState} : null,
   };
   try{
