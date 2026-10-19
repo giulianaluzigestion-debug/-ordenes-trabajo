@@ -774,8 +774,8 @@ function makeCard(o){
           <span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>${ZONAS[o.zona].dias}</span>
           ${o.vendedor?`<span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>${esc(o.vendedor)}</span>`:''}
           <span style="color:${ZONAS[o.zona].color};font-weight:600">${ZONAS[o.zona].label}</span>
-          ${o.fechaOrden?`<span>📄 Orden: ${new Date(o.fechaOrden+'T00:00:00').toLocaleDateString('es-AR',{day:'numeric',month:'short',year:'numeric'})}</span>`:''}
-
+          ${o.fechaOrden && isAdmin?`<span style="background:#f0f4ff;color:#1a3a8f;font-weight:600;padding:2px 9px;border-radius:10px;font-size:11px;">📄 ${new Date(o.fechaOrden+'T00:00:00').toLocaleDateString('es-AR',{day:'numeric',month:'short',year:'numeric'})}</span>`:''}
+          ${o.fechaOrden && !isAdmin?`<span>📄 Orden: ${new Date(o.fechaOrden+'T00:00:00').toLocaleDateString('es-AR',{day:'numeric',month:'short',year:'numeric'})}</span>`:''}
         </div>
         ${o.notas?`<div class="orden-notas">📝 ${esc(o.notas)}</div>`:''}
         ${checkHTML}
